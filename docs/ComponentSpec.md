@@ -26,7 +26,7 @@ Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhang|[Team Repo](
     * **Output** : For students, they will see visualizations of their individual learning progress and they can compare it with the class average learning activities. They are also able to see based on their current learning activities, what’s the probability of them passing the final exam. Some suggestions on reviewing particular sessions could be provided. For teachers, they can see the visualizations of the whole class. They can also zoom in on one particular student. They are also able to see what the probability of passing the exam for every student is. 
 
 
-**Interactions to accomplish use cases**
+## **Interactions to accomplish use cases**
 
 Jenny intends to understand her learning progress better and get some advice on the final exam review. She signs in our application by specifying she is a student and providing her student ID. These two inputs from Jenny (i.e., student identity and student ID) satisfied the required inputs for both visualizations and the machine learning engine. On the webpage, various visual aids based on Jenny’s log activities will be generated. The machine learning engine will utilize Jenny’s log activities and predict which performance group Jenny belongs to and whether Jenny needs to review more before the final exam. 
 
