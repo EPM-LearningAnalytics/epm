@@ -1,5 +1,3 @@
-# FunctionalSpec
-
 # Functional Specification
 
 Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhang|[Team Repo](https://github.com/EPM-LearningAnalytics/EPM_Project)
