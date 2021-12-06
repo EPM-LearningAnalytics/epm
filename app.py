@@ -5,7 +5,7 @@ import pandas as pd
 import altair as alt
 
 from userDB.userDB import create_usertable, add_userdata, login_user, view_all_users
-from epm.graph_data import session_agg
+from epm.graph import *
 
 
 def main():
@@ -94,76 +94,48 @@ def page_instructor():
     option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 'Grouping Assistant', 'User Profiles'])
     
     if option == 'Class Behavior Analysis':
-        st.header("Class Behavior Analysis")
-        print(os.getcwd())
         # --- read in dataframe ---
-        df_avg = pd.read_csv('./EPM_dataset/Data/class_avg_mere.csv')
-        df = pd.read_csv('./EPM_dataset/Data/log_session_mere.csv')
+        df = session_agg()
+        df_avg = session_avg()
 
         # --- Slider - Student Slider ---
-        student = st.slider('Which student?', 1, 115)
-
+        student = st.slider('1. Which student?', 1, 115)
 
         # --- Selectbox - log activity selection ---
         log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 'mouse_wheel_click',
-                        'mouse_click_right','mouse_movement','keystroke']
+                    'mouse_click_right','mouse_movement','keystroke']
         option = st.selectbox(
-            'Which log activity you like to focus on?',
-            log_activity
-        )
+        '2. Which log activity you like to focus on?',
+        log_activity)
 
         # --- Multiselect - Activity selection ---
         sorted_activity_unique = sorted( df['activity'].unique() )
-
-        selected_activity = st.multiselect('Activity', 
+        selected_activity = st.multiselect('3. Which activity do you want to include', 
                                                 sorted_activity_unique,
                                                 sorted_activity_unique)
-
 
         # --- Filtering data ---
         df_selected = df[ (df['activity'].isin(selected_activity)) & (df['student_id'] == student) ]
         df_avg_selected = df_avg[ (df['activity'].isin(selected_activity)) ]
 
-
-        # --- Display dataframe ---
-        # st.header('Display Selected Stduents')
-        st.write('### The student you selected:', 'student '+ str(student))
-        # st.write('Data Dimension: ' + str(df_selected.shape[0]) + ' rows and ' + str(df_selected.shape[1]) + ' columns.')
-        # st.dataframe(df_selected.drop(df_selected.columns[[0, 1, 2]], axis=1))
-
-
         # --- Class Average Plot ---
-
-        p = alt.Chart(df_avg_selected, width=350, height=400).mark_bar().encode(
-            x='session:N',
-            y=option,
-            color='activity',
-            tooltip=[option, 'activity']
-        ).interactive(
-        ).properties(
-            title='Class Average'
-        )
-
+        p = plot_log(df_avg_selected, option).properties(
+            title = 'Class Average'
+            )
 
         # --- Student Activity Distribution Plot---
-
-        s = alt.Chart(df_selected, width=350, height=400).mark_bar().encode(
-            x='session:N',
-            y=option,
-            color='activity',
-            tooltip=[option, 'activity']
-        ).interactive(
-        ).properties(
+        s = plot_log(df_selected, option).properties(
             title='Student' + ' ' + str(student) + ' ' + option
-        )
+            )
 
+        # --- Present graphs side by side
         x = alt.hconcat(
             p, s
         ).resolve_scale(
             y='shared'
         )
 
-        st.write('### The log activity you selected:', option)
+        st.write('**Plot Result**: You select ' + 'student ' + str(student) + ' and ' + option)
         st.write(x)
 
     elif option == 'Class Grades':
