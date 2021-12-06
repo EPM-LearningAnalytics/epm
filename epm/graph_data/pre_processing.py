@@ -3,7 +3,7 @@ import pandas as pd
 
 def read_all():
     # set dir
-    os.chdir('../../EPM_dataset/Data/Processes')
+    os.chdir('EPM_dataset/Data/Processes')
     
     # create empty dataframe for storage
     column_names = ["session", "student_id", "exercise", 
@@ -31,4 +31,5 @@ def read_all():
                                                            r'Study\w+', r'(?i)FSM_\w+'], 
                          value=['TextEditor','Deeds','Study','FSM'])
     return log_raw
+
 
