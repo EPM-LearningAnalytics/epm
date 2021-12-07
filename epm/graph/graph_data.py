@@ -28,7 +28,8 @@ def session_avg():
 def mid_avg():
     """
     """
-    mid_grades = pd.read_excel('EPM_dataset/Data/intermediate_grades.xlsx')
+    mid_grades = pd.read_excel('EPM_dataset/Data/intermediate_grades.xlsx',
+                                engine='openpyxl')
     mid_avg = pd.DataFrame(mid_grades.mean(axis=0))
     mid_avg = mid_avg.drop(['Student Id'])
     mid_avg.reset_index(inplace = True)
@@ -42,5 +43,6 @@ def mid_avg():
     mid_std.columns = ['Student Id', 'Session', 'Avg_grades']
 
     mid_all = pd.concat([mid_avg, mid_std])
+    mid_all['Student Id'] = mid_all['Student Id'].astype(str)
     
     return mid_all

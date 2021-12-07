@@ -140,6 +140,17 @@ def page_instructor():
 
     elif option == 'Class Grades':
         st.header("Class Grades")
+        # --- session grades plot ---
+        mid_all = mid_avg()
+        students = mid_all['Student Id'].unique()
+        selected_students = st.multiselect('Students you selected', 
+                                                students,
+                                                ['Average', '1'])
+        mid_all = mid_all[mid_all['Student Id'].isin(selected_students)]
+
+        m = plot_mid(mid_all)
+
+        st.write(m)
 
     elif option == 'Grouping Assistant':
         st.header("Grouping Assistant")

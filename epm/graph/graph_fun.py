@@ -15,3 +15,19 @@ def plot_log(data, y_option):
     
     return p
 
+def plot_mid(data):
+    """
+    """
+    m = alt.Chart(data, width=700, height=500
+    ).mark_line(
+    ).encode(
+        x='Session', 
+        y='Avg_grades',
+        color = 'Student Id:N',
+        tooltip=['Avg_grades']
+    ).interactive().properties(
+    title = "Class and student's average session grades")
+
+    return m
+
+

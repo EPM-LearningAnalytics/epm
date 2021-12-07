@@ -25,7 +25,6 @@ option = st.selectbox(
 log_activity)
 
 # --- Multiselect - Activity selection ---
-
 sorted_activity_unique = sorted( df['activity'].unique() )
 selected_activity = st.multiselect('3. Which activity do you want to include', 
                                         sorted_activity_unique,
@@ -48,7 +47,7 @@ s = plot_log(df_selected, option).properties(
     title='Student' + ' ' + str(student) + ' ' + option
     )
 
-# --- Present graphs side by side
+# --- Present graphs side by side ---
 x = alt.hconcat(
     p, s
 ).resolve_scale(
@@ -58,3 +57,15 @@ x = alt.hconcat(
 st.write('**Plot Result**: You select ' + 'student ' + str(student) + ' and ' + option)
 st.write(x)
 
+
+# --- session grades plot ---
+mid_all = mid_avg()
+students = mid_all['Student Id'].unique()
+selected_students = st.multiselect('Students you selected', 
+                                        students,
+                                        ['Average', '1'])
+mid_all = mid_all[mid_all['Student Id'].isin(selected_students)]
+
+m = plot_mid(mid_all)
+
+st.write(m)
