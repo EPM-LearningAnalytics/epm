@@ -1,6 +1,9 @@
+"""
+This is a streamlit file used for testing visualizations
+"""
+
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import altair as alt
 
 from epm.graph import *
@@ -35,7 +38,6 @@ df_selected = df[ (df['activity'].isin(selected_activity)) & (df['student_id'] =
 df_avg_selected = df_avg[ (df['activity'].isin(selected_activity)) ]
 
 # --- Class Average Plot ---
-
 p = plot_log(df_avg_selected, option).properties(
     title = 'Class Average'
     )

@@ -91,7 +91,8 @@ def page_student(id):
 
 def page_instructor():
     st.header("This is the instructor page")
-    option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 'Grouping Assistant', 'User Profiles'])
+    option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
+                                                'Grouping Assistant', 'User Profiles'])
     
     if option == 'Class Behavior Analysis':
         # --- read in dataframe ---
@@ -102,8 +103,9 @@ def page_instructor():
         student = st.slider('1. Which student?', 1, 115)
 
         # --- Selectbox - log activity selection ---
-        log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 'mouse_wheel_click',
-                    'mouse_click_right','mouse_movement','keystroke']
+        log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 
+                        'mouse_wheel_click','mouse_click_right',
+                        'mouse_movement','keystroke']
         option = st.selectbox(
         '2. Which log activity you like to focus on?',
         log_activity)
@@ -131,9 +133,7 @@ def page_instructor():
         # --- Present graphs side by side
         x = alt.hconcat(
             p, s
-        ).resolve_scale(
-            y='shared'
-        )
+        ).resolve_scale(y='shared')
 
         st.write('**Plot Result**: You select ' + 'student ' + str(student) + ' and ' + option)
         st.write(x)

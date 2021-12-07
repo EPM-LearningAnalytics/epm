@@ -2,7 +2,6 @@
 """
 import pandas as pd
 
-
 def session_agg():
     """
     """
