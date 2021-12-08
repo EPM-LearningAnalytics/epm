@@ -71,3 +71,16 @@ mid_all = mid_all[mid_all['Student Id'].isin(selected_students)]
 m = plot_mid(mid_all)
 
 st.write(m)
+
+# --- Final grades plot ---
+final_all = final_step_1()
+final_all = final_avg(final_all)
+students_final = final_all['Student ID'].unique()
+selected_students_final = st.multiselect('Students you selected', 
+                                        students_final,
+                                        ['Average', 'Q1', 'Q2', 'Q3'])
+final_all = final_all[final_all['Student ID'].isin(selected_students_final)]
+
+m_final = plot_final(final_all)
+
+st.write(m_final)
