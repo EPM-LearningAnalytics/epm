@@ -65,7 +65,7 @@ mid_all = mid_avg()
 students = mid_all['Student Id'].unique()
 selected_students = st.multiselect('Students you selected', 
                                         students,
-                                        ['Average', '1'])
+                                        ['Average', 'Q1', 'Q2', 'Q3'])
 mid_all = mid_all[mid_all['Student Id'].isin(selected_students)]
 
 m = plot_mid(mid_all)
