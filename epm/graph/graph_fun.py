@@ -30,4 +30,16 @@ def plot_mid(data):
 
     return m
 
-
+def plot_final(data):
+    '''
+    '''
+    m = alt.Chart(data, width=700, height=500
+        ).mark_line(point = True
+        ).encode(
+            x='Session', 
+            y='Avg_grades',
+            color = 'Student ID:N',
+            tooltip=['Avg_grades']
+        ).interactive().properties(
+        title = "Comparison of class and student's final grades on a standard scale")
+    return(m)
