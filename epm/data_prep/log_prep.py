@@ -13,11 +13,17 @@ import pandas as pd
 import numpy as np
 
 
-def read_file(file_dir = 'data/EPM_dataset/Data/Processes'):
+def read_file(file_dir = 'data/Processes'):
     """
-    This method 
+    Read log files from given directory
 
-    Parameters:
+    Parameters
+    ----------
+    Local path of EPM Processes files
+
+    Return
+    ----------
+    A list containing pandas dataframes of all sessions' raw data
     """
     sessions = []
     for root, dirs, files in os.walk(file_dir, topdown=False):
@@ -53,7 +59,17 @@ def read_file(file_dir = 'data/EPM_dataset/Data/Processes'):
     return data_list
 
 def feature_manipulation(data_list):
+    """
+    Transform raw log data to cleaned and formatted data
 
+    Parameters
+    ----------
+    A list containing pandas dataframes of all sessions' raw data
+
+    Return
+    ----------
+    A list containing pandas dataframes of all sessions' cleaned and formatted data
+    """
     # drop irrelevant columns and give simpler column names
     for i, session in enumerate(data_list):
         if i == 0: continue
@@ -93,13 +109,17 @@ def feature_manipulation(data_list):
 
 def save_data(data_list,save_dir = 'justtry/logdata/'):
     """ 
-    save to csv
+    Save processed data to csv files
+
+    Parameters
+    ----------
+    datalist: A list containing pandas dataframes of all sessions' raw data
+    save_dir: A path to save files in
     """
     for i, session in enumerate(data_list):
         if i == 0: continue
         file_name = "variables_session_" + str(i) + "_not_filtered.csv"
         session.to_csv(save_dir+ file_name)
-    return 0
             
 
         
@@ -107,7 +127,7 @@ def main():
     A = read_file()
     A = feature_manipulation(A)
     save_data(A)
-    return 0
+    return 
 
 
 if __name__ == '__main__':

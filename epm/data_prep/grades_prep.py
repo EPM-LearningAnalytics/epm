@@ -14,10 +14,15 @@ from sklearn.preprocessing import StandardScaler
 
 
 
-def read_grades(dir1 = 'data/EPM_Project/EPM_dataset/Data/intermediate_grades.xlsx',
-                dir2 = 'data/EPM_Project/EPM_dataset/Data/final_grades.xlsx'):
+def read_grades(dir1 = 'data/intermediate_grades.xlsx',
+                dir2 = 'data/final_grades.xlsx'):
     """
     Read grades.xlsx files
+
+    Parameters
+    ----------
+    dir1: intermidiate grades path
+    dir2: final grades path
     """
     # get intermediate grades
     mid_grades = pd.read_excel(dir1)
@@ -34,6 +39,16 @@ def read_grades(dir1 = 'data/EPM_Project/EPM_dataset/Data/intermediate_grades.xl
 def final_manipulation(final_1st,final_2nd):
     """
     This function merge two final grades into one single file
+
+    Parameters
+    ----------
+    final_1st: first final grades dataframe
+    final_2nd: second final grades dataframe
+
+    Return
+    ----------
+    A dataframe of one final grades
+
     """
     # students who took exams twice
     twotimer = list(set(final_1st['Student ID']).intersection(set(final_2nd['Student ID'])))
@@ -61,7 +76,18 @@ def final_manipulation(final_1st,final_2nd):
 
 
 def rebase_mid(mid_grades):
-    # Rebase score on 100
+    """
+    Rescale mid scores to scores out of 100
+    
+    Parameters
+    ----------
+    final_1st: first final grades dataframe
+    final_2nd: second final grades dataframe
+
+    Return
+    ----------
+    A dataframe of one final grades
+    """
     mid_100 = mid_grades
     for i, col_name in enumerate(mid_grades.columns):
         if i == 0: continue
@@ -72,6 +98,18 @@ def rebase_mid(mid_grades):
     return mid_100
 
 def merge_mid_final(mid_100,final_100):
+    """
+    Merge midterm grades and final grades
+    
+    Parameters
+    ----------
+    mid_100: midterm grades dataframe
+    final_100: final grades dataframe
+
+    Return
+    ----------
+    A dataframe containning all grades
+    """
     # merge table
     grades = mid_100.merge(final_100, how='inner', on='ID')
     #grades3['FIN1'] = grades3['FIN1'].fillna(0)
@@ -79,6 +117,18 @@ def merge_mid_final(mid_100,final_100):
     return grades
 
 def standardize_grades(grades):
+    """
+    Normalize grades 
+    
+    Parameters
+    ----------
+    A dataframe containning all grades
+
+    Return
+    ----------
+    A dataframe containning standardized grades
+    
+    """
     cols = ['MID2', 'MID3', 'MID4', 'MID5', 'MID6', 'FIN2', 'FIN3', 'FIN4','FIN5', 'FIN6']
     ID_var = grades['ID']
     std = StandardScaler()
@@ -91,7 +141,19 @@ def standardize_grades(grades):
     return data_std
 
 def get_result(grades3):
-    # add columns representing test result for each sesssion
+    """
+    Measure the performance measure for each sesssion
+    
+    Parameters
+    ----------
+    A dataframe containning all standardized grades
+
+    Return
+    ----------
+    A dataframe with performance measurement
+    
+
+    """
     for i in range(2,7):
         mid_col = 'MID' + str(i)
         fin_col = 'FIN' + str(i)
@@ -110,6 +172,15 @@ def get_result(grades3):
     
 
 def save_grades(grades,outdir = 'Explore/data/grades2.csv'):
+    """
+    Save processed grades to the path 
+    
+    Parameters
+    ----------
+    grades: well-done grades dataframe to save
+    outdir: the path to save files in
+
+    """
     grades.to_csv(outdir)
 
 def main():
