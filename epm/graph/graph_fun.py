@@ -1,4 +1,5 @@
 """
+
 """
 
 import altair as alt
@@ -31,8 +32,8 @@ def plot_mid(data):
     return m
 
 def plot_final(data):
-    '''
-    '''
+    """
+    """
     m = alt.Chart(data, width=700, height=500
         ).mark_line(point = True
         ).encode(
