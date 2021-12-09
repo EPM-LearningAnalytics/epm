@@ -14,8 +14,8 @@ from sklearn.preprocessing import StandardScaler
 
 
 
-def read_grades(dir1 = 'EPM_Project/EPM_dataset/Data/intermediate_grades.xlsx',
-                dir2 = 'EPM_Project/EPM_dataset/Data/final_grades.xlsx'):
+def read_grades(dir1 = 'data/EPM_Project/EPM_dataset/Data/intermediate_grades.xlsx',
+                dir2 = 'data/EPM_Project/EPM_dataset/Data/final_grades.xlsx'):
     """
     Read grades.xlsx files
     """
@@ -119,7 +119,7 @@ def main():
     grades = merge_mid_final(mid,fin)
     std_grades = standardize_grades(grades)
     get_result(std_grades)
-    save_grades(std_grades)
+    #save_grades(std_grades)
     print('Done!')
 
 if __name__ == '__main__':

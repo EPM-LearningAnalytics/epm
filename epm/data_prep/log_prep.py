@@ -13,22 +13,28 @@ import pandas as pd
 import numpy as np
 
 
-def read_file(file_dir = '/UW/EPM_Project/EPM_dataset/Data/Processes'):
+def read_file(file_dir = 'data/EPM_dataset/Data/Processes'):
+    """
+    This method 
+
+    Parameters:
+    """
     sessions = []
     for root, dirs, files in os.walk(file_dir, topdown=False):
         if files:
             session = []
             for file in files:
-                path = os.path.join(root, file)
-                log = pd.read_csv(path, sep=",", header=None)
-                session.append(log)
-
-            session_pd = pd.concat(session)
-            session_pd.columns = ["session", "student_id", "exercise", 
-                          "activity",'start_time','end_time',
-                         'idle_time','mouse_wheel','mouse_wheel_click','mouse_click_left',
-                         'mouse_click_right','mouse_movement','keystroke']
-            sessions.append(session_pd)
+                if file != '.DS_Store':
+                    path = os.path.join(root, file)
+                    log = pd.read_csv(path, sep=",", header=None)
+                    session.append(log)
+            if session:
+                session_pd = pd.concat(session)
+                session_pd.columns = ["session", "student_id", "exercise", 
+                            "activity",'start_time','end_time',
+                            'idle_time','mouse_wheel','mouse_wheel_click','mouse_click_left',
+                            'mouse_click_right','mouse_movement','keystroke']
+                sessions.append(session_pd)
     
     # Insert the ordered session data to the data_list array.
     data_list = [0]*7
@@ -85,7 +91,7 @@ def feature_manipulation(data_list):
 
     return data_list
 
-def save_data(data_list,save_dir = '~/UW/CSE583/Explore/data/'):
+def save_data(data_list,save_dir = 'justtry/logdata/'):
     """ 
     save to csv
     """
