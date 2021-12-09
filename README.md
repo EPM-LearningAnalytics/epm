@@ -37,7 +37,18 @@ Our project intends to build a web tool to make log data informative for student
 └── travis.yml
  ```
 ## Installation
+This application is running upon the Docker container. Please download and install Docker from [its official website](https://docs.docker.com/get-docker/) if you have not installed Docker in your operating system. After the installation, please follow the steps below.
 
+1. In your command-line interface, move to the directory Dockerfile is located (root directory of this project).
+2. Build the Docker image by entering the following command.
+    ```console
+    $ docker build -t epm:latest .
+    ```
+3. Run app.py on the Docker image.
+    ```console
+    $ docker run -p 8501:8501 epm:latest
+    ```
+4. To run the application, open your Internet browser and enter `localhost:8501`.
 
 ## Usage
 
