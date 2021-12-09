@@ -43,6 +43,9 @@ Our project intends to build a **web tool** to make log data informative for stu
 └── requirements.txt
  ```
 
+### Project Design
+<img src="docs/design1.jpg" height="250" width="450" align=center>
+
 ## Usage
 
 ### Requirements
