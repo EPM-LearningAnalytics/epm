@@ -44,7 +44,7 @@ Our project intends to build a **web tool** to make log data informative for stu
  ```
 
 ### Project Design
-<img src="docs/design1.jpg" height="250" width="450" align=center>
+<img src="docs/projectdesign.svg" height="250" width="450" align=center>
 
 ## Usage
 
