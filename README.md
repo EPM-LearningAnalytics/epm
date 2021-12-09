@@ -16,7 +16,6 @@ Our project intends to build a **web tool** to make log data informative for stu
 
 ## Data Source
 
-------------------------
 [Educational Process Mining (EPM): A Learning Analytics Data Set](https://archive.ics.uci.edu/ml/datasets/Educational+Process+Mining+(EPM)%3A+A+Learning+Analytics+Data+Set)
 
 **Overview**: A group of 115 students of first-year, undergraduate Engineering major at the University of Genoa studied over a simulation environment named Deeds (Digital Electronics Education and Design Suite), and their log activities on the online learning platform, intermediate session grades, and final exam grades are recorded.
