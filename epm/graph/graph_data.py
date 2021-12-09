@@ -107,7 +107,7 @@ def final_step_1():
     then calculate out the score for each Session and standardize the data into a scale
     of full score for each session and TOTAL are 10.
 
-    Returns
+    Return
     ---------
     The function returns a dataframe with columns of Session1 to Session6 and TOTAL
     '''
