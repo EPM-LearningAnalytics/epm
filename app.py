@@ -7,7 +7,6 @@ import altair as alt
 from userDB.userDB import create_usertable, add_userdata, login_user, view_all_users
 from epm.graph import *
 
-
 def main():
     components.html(
         """
