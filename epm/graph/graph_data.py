@@ -5,7 +5,7 @@ import pandas as pd
 def session_agg():
     """
     """
-    log_raw = pd.read_csv('EPM_dataset/Data/all_log.csv')
+    log_raw = pd.read_csv('data/all_log.csv')
     # drop irrelevant cols
     drop_cols = ['start_time','exercise','end_time']
     log_raw = log_raw.drop(columns = drop_cols)
@@ -27,7 +27,7 @@ def session_avg():
 def mid_avg():
     """
     """
-    mid_grades= pd.read_excel('EPM_dataset/Data/intermediate_grades.xlsx',engine='openpyxl')
+    mid_grades= pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
     #calculate the mean
     mid_avg = pd.DataFrame(mid_grades.mean(axis=0))
     mid_avg = mid_avg.drop(['Student Id'])
@@ -72,7 +72,7 @@ def mid_avg():
 def final_step_1():
     '''
     '''
-    data= pd.read_excel('EPM_dataset/Data/final_grades.xlsx',engine='openpyxl')
+    data= pd.read_excel('data/final_grades.xlsx',engine='openpyxl')
 
     #grab the columns' title
     namelist = list(data).copy()
