@@ -96,7 +96,7 @@ def page_instructor():
     if option == 'Class Behavior Analysis':
         # --- read in dataframe ---
         df = session_agg()
-        df_avg = session_avg()
+        df_avg = session_avg(df)
 
         # --- Slider - Student Slider ---
         student = st.slider('1. Which student?', 1, 115)

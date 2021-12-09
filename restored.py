@@ -14,7 +14,7 @@ st.write('This app displays the log activity of engineering student!')
 
 # --- read in dataframe ---
 df = session_agg()
-df_avg = session_avg()
+df_avg = session_avg(df)
 
 
 # --- Slider - Student Slider ---
