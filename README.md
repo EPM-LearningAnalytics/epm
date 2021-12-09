@@ -36,11 +36,21 @@ Our project intends to build a web tool to make log data informative for student
 ├── requirements.txt
 └── travis.yml
  ```
-## Installation
-
-
 ## Usage
 
+### Requirements
+To start, you need to have docker installed. Whatever system you use, just follow the tutorial on docker's official website and you can get it done smoothly.
+
+### Installation
+Clone this repository and run the following code under the repository's root directory:
+```bash
+docker build -t epm:latest .
+```
+Then run the following command under the same directory:
+```bash
+docker run -p 8501:8501 epm:latest
+```
+Turn to browser and navigate to the URL:localhost:8501
 
 ## Use Cases
 - Jenny is taking the engineering course using Deeds. At the beginning of the course, she was very determined to strengthen her basic knowledge of electronics and complete the course successfully. However, after two months of her study, she found herself not paying enough attention to the course and easily distracted by YouTube videos and social media while taking the course. As the final exam date approaches, she wants to stop her bad habits and set up the course review plan to boost her performance in the final exam. To do so, she signs in to our application, types in her ID, and takes a look at her log activities with visual aids. She becomes very embarrassed by the fact that she actually spent more time being idle (meaning she did something else during the study) than time spent studying on the platform. Additionally, she receives recommendations about which chapter she needs to cover first before the final. Because of the recommendation, she successfully completes the course with a much higher score than the class average in the end.   
