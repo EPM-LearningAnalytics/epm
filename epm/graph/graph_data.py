@@ -101,6 +101,47 @@ def mid_avg():
     mid_all['Avg_grades'] = mid_all.apply(lambda x: round(x["Avg_grades"],2), axis=1)
     return mid_all
 
+def mid_hist(student, session):
+    """
+    """
+    data = pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
+
+    data_for_hist = data[['Student Id','Session '+str(session)]]
+    data_for_hist.columns = ['Student_Id','Session_']
+
+    return data_for_hist
+
+def mid_summary(student, data_for_hist):
+    """
+    """
+    data_summary = (
+        data_for_hist
+        .describe()
+        .reset_index()
+        .query("index == 'mean' | index == '25%' | index == '50%' | index == '75%'")
+        .assign(Session = lambda x: x.Session_.round(1))
+    )
+
+    data_summary = data_summary.append({'index': 1, 
+                                        'Student_Id':student, 
+                                        'Session_':data_for_hist.loc[ student-1 ,"Session_"], 
+                                        'Session':data_for_hist.loc[ student-1 ,"Session_"]}, ignore_index=True)
+
+    data_summary['Session'] = data_summary['Session'].astype("str")
+
+    c_cp = ["#335C67", "#fff3b0", "#e09f3e", "#9e2a2b", "#540b0e"
+            , "#82e2e9", "a9b7ee", "#cce6f8", "ead4f3", "d5baa7"]
+
+    data_summary = (
+        data_summary
+        .assign(label = ["Mean", "Q1", "Median", "Q3", "student "+str(student)])
+        .assign(color = [c_cp[2], c_cp[3], c_cp[4], c_cp[2], c_cp[3]])
+        .assign(labelValue = lambda x: x.label + " " + x.Session)
+        .assign(labelValueLineBreak = lambda x: x.label + "\n" + x.Session))
+    
+    return data_summary
+
+
 def final_step_1():
     '''
     This function automatically reads in the final grades data in the "data" folder, 
