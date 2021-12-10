@@ -44,12 +44,8 @@ Our project intends to build a **web tool** to make log data informative for stu
  ```
 
 ### Project Design
-<<<<<<< HEAD
 
-<img src="docs/design1.jpg" height="250" width="450" align=center>
-=======
 <img src="docs/projectdesign.svg" height="250" width="450" align=center>
->>>>>>> 0f82f7e882bfd66f12aec027933e8bcf48231076
 
 ## Usage
 
