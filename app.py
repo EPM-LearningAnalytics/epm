@@ -156,8 +156,7 @@ def page_instructor():
         st.write(p)
         # --- session grades plot ---
         # prepare datasets
-        all = mid_avg()
-        area = mid_area()
+        all, area = mid_avg()
 
         students = all['Student Id'].unique()
         selected_students = st.multiselect('Students you selected', 

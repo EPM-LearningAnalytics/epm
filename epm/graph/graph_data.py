@@ -66,48 +66,7 @@ def mid_avg():
     mid_avg.reset_index(inplace = True)
     mid_avg.columns = ['Session', 'Avg_grades']
     mid_avg.insert(0, "Student Id", 'Average')
-
-    # #calculate the Q1
-    # mid_avg_Q1 = pd.DataFrame(mid_grades.quantile(q=0.25, axis=0))
-    # mid_avg_Q1 = mid_avg_Q1.drop(['Student Id'])
-    # mid_avg_Q1.reset_index(inplace = True)
-    # mid_avg_Q1.columns = ['Session', 'Avg_grades']
-    # mid_avg_Q1.insert(0, "Student Id", 'Q1')
-
-    # #calculate the median
-    # mid_avg_Q2 = pd.DataFrame(mid_grades.quantile(q=0.5, axis=0))
-    # mid_avg_Q2 = mid_avg_Q2.drop(['Student Id'])
-    # mid_avg_Q2.reset_index(inplace = True)
-    # mid_avg_Q2.columns = ['Session', 'Avg_grades']
-    # mid_avg_Q2.insert(0, "Student Id", 'Q2')
-
-    # #calculate the Q3
-    # mid_avg_Q3 = pd.DataFrame(mid_grades.quantile(q=0.75, axis=0))
-    # mid_avg_Q3 = mid_avg_Q3.drop(['Student Id'])
-    # mid_avg_Q3.reset_index(inplace = True)
-    # mid_avg_Q3.columns = ['Session', 'Avg_grades']
-    # mid_avg_Q3.insert(0, "Student Id", 'Q3')
-
-    #transform the data into another dataframe
-    mid_std = pd.melt(mid_grades, id_vars='Student Id', 
-                  value_vars=['Session 2', 'Session 3',
-                              'Session 4', 'Session 5',
-                              'Session 6'])
-    mid_std.columns = ['Student Id', 'Session', 'Avg_grades']
-
-    # mid_all = pd.concat([mid_avg, mid_avg_Q1, mid_avg_Q2, mid_avg_Q3, mid_std])
-    mid_all = pd.concat([mid_avg, mid_std])
-    mid_all['Student Id'] = mid_all['Student Id'].astype(str)
-    #cut the long tail after the dot
-    mid_all['Avg_grades'] = mid_all.apply(lambda x: round(x["Avg_grades"],2), axis=1)
     
-    return mid_all
-
-def mid_area():
-    """
-    """
-    mid_grades= pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
-
     # calculate the Q1
     mid_avg_Q1 = pd.DataFrame(mid_grades.quantile(q=0.20, axis=0))
     mid_avg_Q1 = mid_avg_Q1.drop(['Student Id'])
@@ -122,10 +81,23 @@ def mid_area():
     mid_avg_Q3.columns = ['Session', 'Avg_grades']
     mid_avg_Q3.insert(0, "Student Id", 'Q3')
 
+    #transform the data into another dataframe
+    mid_std = pd.melt(mid_grades, id_vars='Student Id', 
+                  value_vars=['Session 2', 'Session 3',
+                              'Session 4', 'Session 5',
+                              'Session 6'])
+    mid_std.columns = ['Student Id', 'Session', 'Avg_grades']
+
+    # mid_all = pd.concat([mid_avg, mid_avg_Q1, mid_avg_Q2, mid_avg_Q3, mid_std])
+    mid_all = pd.concat([mid_avg, mid_std])
+    mid_all['Student Id'] = mid_all['Student Id'].astype(str)
+    #cut the long tail after the dot
+    mid_all['Avg_grades'] = mid_all.apply(lambda x: round(x["Avg_grades"],2), axis=1)
+   
     mid_area = pd.concat([mid_avg_Q1, mid_avg_Q3])
     mid_area['Avg_grades'] = mid_area.apply(lambda x: round(x["Avg_grades"],2), axis=1)
 
-    return mid_area
+    return mid_all, mid_area
 
 
 def mid_hist(student, session):
