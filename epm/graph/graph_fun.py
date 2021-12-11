@@ -57,6 +57,7 @@ def plot_mid(data):
 def plot_mid_hist(session, student, data_for_hist, data_summary):
     """
     """
+
     mean=data_summary.loc[ 0 ,"Session"]
     Q1=data_summary.loc[ 1 ,"Session"]
     median=data_summary.loc[ 2 ,"Session"]

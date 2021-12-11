@@ -124,12 +124,12 @@ def page_instructor():
             title = 'Class Average'
             )
 
-        # --- Student Activity Distribution Plot---
+        # --- Student Activity Distribution Plot ---
         s = plot_log(df_selected, option).properties(
             title='Student' + ' ' + str(student) + ' ' + option
             )
 
-        # --- Present graphs side by side
+        # --- Present graphs side by side ---
         x = alt.hconcat(
             p, s
         ).resolve_scale(y='shared')
@@ -139,6 +139,21 @@ def page_instructor():
 
     elif option == 'Class Grades':
         st.header("Class Grades")
+        # --- each session histogram plot ---
+        col1, col2 = st.columns(2)
+        with col1:
+            session = st.radio('Which session?', (2, 3, 4, 5, 6), 0)
+        with col2:
+            student = st.number_input('Which student you want to focus on \
+                                      (input student ID from 1 to 115)', 1, 115, 1)
+        
+        # prepare datasets
+        data_for_hist = mid_hist(student, session)
+        data_summary = mid_summary(student, data_for_hist)
+
+        p = plot_mid_hist(session, student, data_for_hist, data_summary)
+
+        st.write(p)
         # --- session grades plot ---
         mid_all = mid_avg()
         students = mid_all['Student Id'].unique()
