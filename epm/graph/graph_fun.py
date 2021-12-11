@@ -28,7 +28,7 @@ def plot_log(data, y_option):
     
     return p
 
-def plot_mid(data):
+def plot_mid(avg_data, area_data):
     """
     plot the line chart reflecting changes within different sessions of the class average, Q1, Q2, Q3
     and selected students.
@@ -42,22 +42,48 @@ def plot_mid(data):
     a plot with x-axis lists different sessions, y-axis is the score. Different colors represent different
     statistics of the scores or different students.
     """
-    m = alt.Chart(data, width=700, height=500
-    ).mark_line(
+    area = alt.Chart(area_data, width=700, height=500
+    ).mark_area(opacity=0.3).encode(
+        alt.X('Session'),
+        alt.Y('max(Avg_grades):Q'),
+        alt.Y2('min(Avg_grades):Q'),
+        color=alt.value('#e6bcf5')
+    )
+
+    m = alt.Chart(avg_data, width=600, height=400
+    ).mark_line(point=alt.OverlayMarkDef()
     ).encode(
-        x='Session', 
-        y='Avg_grades',
+        x=alt.X('Session'),
+        y=alt.Y('Avg_grades', scale=alt.Scale(domain=[0, 6]),
+                title='Intermediate Grades'),
         color = 'Student Id:N',
+        strokeDash=alt.condition(
+            alt.datum['Student Id'] == 'Average',
+            alt.value([6, 8]),
+            alt.value([0])
+        ),
         tooltip=['Avg_grades']
     ).interactive().properties(
-    title = "Class and student's average session grades")
+    title = {'text':"Class and student's average session grades",
+             "subtitle":["Comparsion between students' session grades and class average grades.",
+                         "The shaded area: scores above 20% and below 80% of students scores"]})
 
-    return m
+    m = m + area
+
+    m_conf = m.configure_title(
+    fontSize = 24,
+    font = "Optima",
+    color = '#9e2a2b',
+    subtitleColor = '#9e2a2b',
+    subtitleFontSize = 16,
+    anchor = "start",
+    align = "left")
+
+    return m_conf
 
 def plot_mid_hist(session, student, data_for_hist, data_summary):
     """
     """
-
     mean=data_summary.loc[ 0 ,"Session"]
     Q1=data_summary.loc[ 1 ,"Session"]
     median=data_summary.loc[ 2 ,"Session"]
@@ -84,7 +110,7 @@ def plot_mid_hist(session, student, data_for_hist, data_summary):
                 "text": "Distribution of intermediate grades of Session "+str(session),
                 "subtitle": ["According to the Intermediate data, students score "+str(mean)+" points, on average."
                             ," The median score of the class is "+str(median)+". For 25 percent students earn a score of more than "+str(Q3)+". "
-                            , " counting those who haven't take the intermediate, 25 persent of students score less than "+str(Q1)]
+                            , " counting those who haven't take the intermediate, 25 percent of students score less than "+str(Q1)]
             },
             width = c_chart_width,
             height = c_chart_height
