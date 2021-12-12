@@ -123,7 +123,7 @@ def page_student(username):
         session = st.radio('Which session?', (2, 3, 4, 5, 6), 0)
         
         # prepare datasets
-        data_for_hist = mid_hist(student, session)
+        data_for_hist = mid_hist(session)
         data_summary = mid_summary(student, data_for_hist)
 
         p = plot_mid_hist(session, student, data_for_hist, data_summary)
@@ -196,7 +196,7 @@ def page_instructor():
                                       (input student ID from 1 to 115)', 1, 115, 1)
         
         # prepare datasets
-        data_for_hist = mid_hist(student, session)
+        data_for_hist = mid_hist(session)
         data_summary = mid_summary(student, data_for_hist)
 
         p = plot_mid_hist(session, student, data_for_hist, data_summary)

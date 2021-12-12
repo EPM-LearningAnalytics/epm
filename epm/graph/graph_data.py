@@ -56,8 +56,11 @@ def mid_avg():
 
     Return
     ---------
-    The function returns a dataframe of three columns, which are 'Student Id', 
-    'Session', 'Avg_grades'.
+    The function returns two dataframe of three columns, which are 'Student Id', 
+    'Session', 'Avg_grades'. One includes the average score and all the students'
+    score, which is used to plot the line chart of the select data. The other includes
+    the data of 20% and 80% quartiles, which is used to plot the shaded part.
+    
     """
     mid_grades= pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
     #calculate the mean
@@ -100,8 +103,20 @@ def mid_avg():
     return mid_all, mid_area
 
 
-def mid_hist(student, session):
+def mid_hist(session):
     """
+    This function grab and construct a dataframe only contains the grades for 
+    the selected session in intermediate grades.
+
+    Parameter
+    ---------
+    session: which session the user select.
+
+    Return
+    ---------
+    a dataframe of the grades for the selected session, with columns get renamed
+    for the convenience of next step's data preprocessing.
+
     """
     data = pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
 
@@ -112,6 +127,23 @@ def mid_hist(student, session):
 
 def mid_summary(student, data_for_hist):
     """
+    This function calculates out several statistics(including mean and quartiles) and 
+    return them in a dataframe with several columns used as the preparation for the 
+    plotting function plot_mid_hist.
+
+    Parameter
+    ---------
+    student: the only one selected student from the whole class.
+    data_for_hist: the output of the former function mid_hist, a dataframe
+                   of the grades in the selected session.
+
+    Return
+    ---------
+    The function returns a dataframe to display some statistics(including the mean, quartiles)
+    for the selected session's grades. As this function is used for the preprocessing of plotting
+    histgram in function plot_mid_hist, the output contains several columns that looks unnecessary
+    but useful when plotting the several layers.
+
     """
     data_summary = (
         data_for_hist
