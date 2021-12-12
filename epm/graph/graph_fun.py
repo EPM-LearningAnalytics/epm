@@ -5,7 +5,7 @@ the preprocessing results of graph_data
 
 import altair as alt
 
-def plot_log(data, y_option):
+def plot_log(data, student, activity, y_option, type='average'):
     """
     plot the histgram of selected activity based on data
 
@@ -19,13 +19,21 @@ def plot_log(data, y_option):
     a plot with x-axis lists different sessions, y-axis is the log activity with different colors of
     blocks representing the amount that the selected log activity spent on different kinds of activities.
     """
-    p = alt.Chart(data, width=350, height=400).mark_bar().encode(
-        x='session:N',
-        y=y_option,
-        color='activity',
-        tooltip=[y_option, 'activity']
-        ).interactive()
+    if type == 'student':
+        df_selected = data[ (data['activity'].isin(activity)) & (data['student_id'] == student) ]
+        base = alt.Chart(df_selected, width=350, height=400)
+    elif type == 'average': 
+        df_avg_selected = data[ (data['activity'].isin(activity)) ]
+        base = alt.Chart(df_avg_selected, width=350, height=400)
+    else: raise ValueError("Type should be either 'student' or 'average'")
     
+    p = base.mark_bar().encode(
+            x='session:N',
+            y=y_option,
+            color='activity',
+            tooltip=[y_option, 'activity']
+            ).interactive()
+
     return p
 
 def plot_mid(avg_data, area_data):

@@ -50,7 +50,7 @@ def main():
 
             elif result and role == 'Student':
                 st.sidebar.success(f"Welcome to the student page, {username}")
-                page_student(id)
+                page_student(username)
 
             else:
                 st.sidebar.warning("Incorrect Username/Password")
@@ -75,33 +75,18 @@ def main():
 def page_home():
     st.header("Home")
 
-
-def page_student(id):
+# --- Student Page ---
+def page_student(username):
     st.header("Student page")
     option = st.selectbox("Options to choose", ['Behavior Analysis', 'Grades', 'Review Alert'])
-    
+    student = int(username)
     if option == 'Behavior Analysis':
         st.header("Behavior Analysis")
-    elif option == 'Grades':
-        st.header("Grades")
-    else:
-        st.header("Review Alert")
-
-
-def page_instructor():
-    st.header("This is the instructor page")
-    option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
-                                                'Grouping Assistant', 'User Profiles'])
-    
-    if option == 'Class Behavior Analysis':
-        # --- read in dataframe ---
+        # read in dataframe
         df = session_agg()
         df_avg = session_avg(df)
 
-        # --- Slider - Student Slider ---
-        student = st.slider('1. Which student?', 1, 115)
-
-        # --- Selectbox - log activity selection ---
+        # Selectbox - log activity selection
         log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 
                         'mouse_wheel_click','mouse_click_right',
                         'mouse_movement','keystroke']
@@ -109,27 +94,90 @@ def page_instructor():
         '2. Which log activity you like to focus on?',
         log_activity)
 
-        # --- Multiselect - Activity selection ---
+        # Multiselect - Activity selection
+        sorted_activity_unique = sorted( df['activity'].unique() )
+        selected_activity = st.multiselect('3. Which activity do you want to include', 
+                                                sorted_activity_unique,
+                                                sorted_activity_unique)
+        
+        # --- Class Average Plot ---
+        p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
+            title = 'Class Average'
+            )
+
+        # --- Student Activity Distribution Plot ---
+        s = plot_log(df, student, selected_activity, option, type='student').properties(
+            title='Student' + ' ' + str(student) + ' ' + option
+            )
+
+        # Present graphs side by side
+        x = alt.hconcat(
+            p, s
+        ).resolve_scale(y='shared')
+        st.write('**Plot Result**: You select ' + option)
+        st.write(x)
+
+    elif option == 'Grades':
+        st.header("Grades")
+        # --- each session histogram plot ---
+        session = st.radio('Which session?', (2, 3, 4, 5, 6), 0)
+        
+        # prepare datasets
+        data_for_hist = mid_hist(student, session)
+        data_summary = mid_summary(student, data_for_hist)
+
+        p = plot_mid_hist(session, student, data_for_hist, data_summary)
+
+        st.write(p)
+        # --- session grades plot ---
+        # prepare datasets
+        all, area = mid_avg()
+
+        all = all[all['Student Id'].isin(['Average',str(student)])]
+
+        m = plot_mid(all, area)
+
+        st.write(m)
+    else:
+        st.header("Review Alert")
+
+# --- Instructor Page ---
+def page_instructor():
+    st.header("This is the instructor page")
+    option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
+                                                'Grouping Assistant', 'User Profiles'])
+    
+    if option == 'Class Behavior Analysis':
+        # read in dataframe
+        df = session_agg()
+        df_avg = session_avg(df)
+
+        # Slider - Student Slider 
+        student = st.slider('1. Which student?', 1, 115)
+
+        # Selectbox - log activity selection
+        log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 
+                        'mouse_wheel_click','mouse_click_right',
+                        'mouse_movement','keystroke']
+        option = st.selectbox(
+        '2. Which log activity you like to focus on?',
+        log_activity)
+
+        # Multiselect - Activity selection
         sorted_activity_unique = sorted( df['activity'].unique() )
         selected_activity = st.multiselect('3. Which activity do you want to include', 
                                                 sorted_activity_unique,
                                                 sorted_activity_unique)
 
-        # --- Filtering data ---
-        df_selected = df[ (df['activity'].isin(selected_activity)) & (df['student_id'] == student) ]
-        df_avg_selected = df_avg[ (df['activity'].isin(selected_activity)) ]
-
         # --- Class Average Plot ---
-        p = plot_log(df_avg_selected, option).properties(
-            title = 'Class Average'
-            )
+        p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
+            title = 'Class Average')
 
         # --- Student Activity Distribution Plot ---
-        s = plot_log(df_selected, option).properties(
-            title='Student' + ' ' + str(student) + ' ' + option
-            )
+        s = plot_log(df, student, selected_activity, option, type='student').properties(
+            title='Student' + ' ' + str(student) + ' ' + option)
 
-        # --- Present graphs side by side ---
+        # Present graphs side by side
         x = alt.hconcat(
             p, s
         ).resolve_scale(y='shared')
