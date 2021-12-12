@@ -75,6 +75,7 @@ def main():
 def page_home():
     st.header("Home")
 
+
 # --- Student Page ---
 def page_student(username):
     st.header("Student page")
@@ -91,24 +92,22 @@ def page_student(username):
                         'mouse_wheel_click','mouse_click_right',
                         'mouse_movement','keystroke']
         option = st.selectbox(
-        '2. Which log activity you like to focus on?',
+        '1. Which log activity you like to focus on?',
         log_activity)
 
         # Multiselect - Activity selection
         sorted_activity_unique = sorted( df['activity'].unique() )
-        selected_activity = st.multiselect('3. Which activity do you want to include', 
+        selected_activity = st.multiselect('2. Which activity do you want to include', 
                                                 sorted_activity_unique,
                                                 sorted_activity_unique)
         
         # --- Class Average Plot ---
         p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
-            title = 'Class Average'
-            )
+            title = 'Class Average')
 
         # --- Student Activity Distribution Plot ---
         s = plot_log(df, student, selected_activity, option, type='student').properties(
-            title='Student' + ' ' + str(student) + ' ' + option
-            )
+            title='Student' + ' ' + str(student) + ' ' + option)
 
         # Present graphs side by side
         x = alt.hconcat(
