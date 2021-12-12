@@ -91,6 +91,23 @@ def plot_mid(avg_data, area_data):
 
 def plot_mid_hist(session, student, data_for_hist, data_summary):
     """
+    This function plots a histgram based on the intermediate grades of selected session and students.
+    The quartile and mean will also be plotted.
+
+    Parameter
+    ---------
+    session: selected session from session 1 to session 6
+    student: only one selected student from student1 to student 115
+    data_for_hist: a dataframe containing the grades only for the selected session, with two columns
+                   recording student ID and their grades.
+    data_summary: a dataframe containing the some statistics for the selected session's grades including
+                  mean, quartiles. It has several columns used for plotting different layers.
+
+    Return
+    ---------
+    a histgram composed of three layers to display not only the grades distribution but also several basic
+    statistics of the grades. The grades for selected students can also be displayed for a direct comparison.
+
     """
     mean=data_summary.loc[ 0 ,"Session"]
     Q1=data_summary.loc[ 1 ,"Session"]
