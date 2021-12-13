@@ -4,11 +4,12 @@ Tests for functions in graph_fun
 
 import unittest
 
-from epm.graph.graph_data import session_agg, session_avg
-from epm.graph.graph_fun import plot_log
+from epm.graph.graph_data import *
+from epm.graph.graph_fun import *
 
 class TestPlotLog(unittest.TestCase):
     """
+    Tests for plot_log function
     """
     def test_average_figure(self):
         """
@@ -68,4 +69,44 @@ class TestPlotLog(unittest.TestCase):
             option = 'mouse_click_left'
 
             plot_log(df, student, activity, option, type='average')
-            
+
+
+class TestPlotMid(unittest.TestCase):
+    """
+    Tests for plotting intermediate line plot function
+    """
+    def test_average_figure(self):
+        """
+        Smoke test to make sure the intermediate graph
+        has the right type
+        """
+        # read datasets and prepare arguments
+        all, area = mid_avg()
+        student = 1
+        all = all[all['Student Id'].isin(['Average',str(student)])]
+
+        m = plot_mid(all, area)
+
+        self.assertEqual(str(type(m)), "<class 'altair.vegalite.v4.api.Chart'>")
+
+
+
+class TestPlotMidHist(unittest.TestCase):
+    """
+    Tests for plotting intermidiate histogram function
+    """
+    def test_hist_figure(self):
+        """
+        Smoke test to make sure the histogram graph
+        has the right type
+        """
+        # read datasets and prepare arguments
+        session = 2
+        student = 1
+        data_for_hist = mid_hist(session)
+        data_summary = mid_summary(student, data_for_hist)
+
+        p = plot_mid_hist(session, student, data_for_hist, data_summary)
+
+        self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.LayerChart'>")
+
