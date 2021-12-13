@@ -56,8 +56,11 @@ def mid_avg():
 
     Return
     ---------
-    The function returns a dataframe of three columns, which are 'Student Id', 
-    'Session', 'Avg_grades'.
+    The function returns two dataframe of three columns, which are 'Student Id', 
+    'Session', 'Avg_grades'. One includes the average score and all the students'
+    score, which is used to plot the line chart of the select data. The other includes
+    the data of 20% and 80% quartiles, which is used to plot the shaded part.
+    
     """
     mid_grades= pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
     #calculate the mean
@@ -66,23 +69,16 @@ def mid_avg():
     mid_avg.reset_index(inplace = True)
     mid_avg.columns = ['Session', 'Avg_grades']
     mid_avg.insert(0, "Student Id", 'Average')
-
-    #calculate the Q1
-    mid_avg_Q1 = pd.DataFrame(mid_grades.quantile(q=0.25, axis=0))
+    
+    # calculate the Q1
+    mid_avg_Q1 = pd.DataFrame(mid_grades.quantile(q=0.20, axis=0))
     mid_avg_Q1 = mid_avg_Q1.drop(['Student Id'])
     mid_avg_Q1.reset_index(inplace = True)
     mid_avg_Q1.columns = ['Session', 'Avg_grades']
     mid_avg_Q1.insert(0, "Student Id", 'Q1')
 
-    #calculate the median
-    mid_avg_Q2 = pd.DataFrame(mid_grades.quantile(q=0.5, axis=0))
-    mid_avg_Q2 = mid_avg_Q2.drop(['Student Id'])
-    mid_avg_Q2.reset_index(inplace = True)
-    mid_avg_Q2.columns = ['Session', 'Avg_grades']
-    mid_avg_Q2.insert(0, "Student Id", 'Q2')
-
     #calculate the Q3
-    mid_avg_Q3 = pd.DataFrame(mid_grades.quantile(q=0.75, axis=0))
+    mid_avg_Q3 = pd.DataFrame(mid_grades.quantile(q=0.80, axis=0))
     mid_avg_Q3 = mid_avg_Q3.drop(['Student Id'])
     mid_avg_Q3.reset_index(inplace = True)
     mid_avg_Q3.columns = ['Session', 'Avg_grades']
@@ -95,14 +91,32 @@ def mid_avg():
                               'Session 6'])
     mid_std.columns = ['Student Id', 'Session', 'Avg_grades']
 
-    mid_all = pd.concat([mid_avg, mid_avg_Q1, mid_avg_Q2, mid_avg_Q3, mid_std])
+    # mid_all = pd.concat([mid_avg, mid_avg_Q1, mid_avg_Q2, mid_avg_Q3, mid_std])
+    mid_all = pd.concat([mid_avg, mid_std])
     mid_all['Student Id'] = mid_all['Student Id'].astype(str)
     #cut the long tail after the dot
     mid_all['Avg_grades'] = mid_all.apply(lambda x: round(x["Avg_grades"],2), axis=1)
-    return mid_all
+   
+    mid_area = pd.concat([mid_avg_Q1, mid_avg_Q3])
+    mid_area['Avg_grades'] = mid_area.apply(lambda x: round(x["Avg_grades"],2), axis=1)
 
-def mid_hist(student, session):
+    return mid_all, mid_area
+
+
+def mid_hist(session):
     """
+    This function grab and construct a dataframe only contains the grades for 
+    the selected session in intermediate grades.
+
+    Parameter
+    ---------
+    session: which session the user select.
+
+    Return
+    ---------
+    a dataframe of the grades for the selected session, with columns get renamed
+    for the convenience of next step's data preprocessing.
+
     """
     data = pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
 
@@ -113,6 +127,23 @@ def mid_hist(student, session):
 
 def mid_summary(student, data_for_hist):
     """
+    This function calculates out several statistics(including mean and quartiles) and 
+    return them in a dataframe with several columns used as the preparation for the 
+    plotting function plot_mid_hist.
+
+    Parameter
+    ---------
+    student: the only one selected student from the whole class.
+    data_for_hist: the output of the former function mid_hist, a dataframe
+                   of the grades in the selected session.
+
+    Return
+    ---------
+    The function returns a dataframe to display some statistics(including the mean, quartiles)
+    for the selected session's grades. As this function is used for the preprocessing of plotting
+    histgram in function plot_mid_hist, the output contains several columns that looks unnecessary
+    but useful when plotting the several layers.
+
     """
     data_summary = (
         data_for_hist
