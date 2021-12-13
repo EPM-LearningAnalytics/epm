@@ -5,22 +5,18 @@ conn = sqlite3.connect('data.db', check_same_thread=False)
 c = conn.cursor()
 
 def create_usertable():
-    c.execute('CREATE TABLE IF NOT EXISTS usertable(username TEXT PRIMARY KEY, password TEXT, role TEXT)')
+    c.execute('CREATE TABLE IF NOT EXISTS userstable(username TEXT, password TEXT)')
 
-def add_userdata(username, password, role):
-    c.execute('INSERT OR IGNORE INTO usertable(username, password, role) VALUES (?,?,?)', (username, password, role))
+def add_userdata(username, password):
+    c.execute('INSERT INTO userstable(username, password) VALUES (?,?)', (username, password))
     conn.commit()
 
-def get_userdata(username, password, role):
-    c.execute('SELECT * FROM usertable WHERE username = ? AND password = ? AND role = ?', (username, password, role))
+def login_user(username, password):
+    c.execute('SELECT * FROM userstable WHERE username = ? AND password = ?', (username, password))
     data = c.fetchall()
     return data
 
 def view_all_users():
-    c.execute('SELECT * FROM usertable')
+    c.execute('SELECT * FROM userstable')
     data = c.fetchall()
     return data
-
-def delete_usertable():
-    c.execute('DROP TABLE IF EXISTS usertable')
-    conn.commit()
