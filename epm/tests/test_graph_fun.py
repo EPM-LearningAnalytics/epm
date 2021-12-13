@@ -4,51 +4,39 @@ Tests for functions in graph_fun
 
 import unittest
 
-from epm.graph.graph_data import *
-from epm.graph.graph_fun import *
+from epm.graph.graph_data import session_agg, session_avg
+from epm.graph.graph_fun import plot_log
 
-class TestPlotMid(unittest.TestCase):
+class TestPlotLog(unittest.TestCase):
     """
     """
-    @staticmethod
-    def test_smoke(self):
+    def test_average_figure(self):
         """
-        Simple smoke test to make sure function runs.
+        Smoke test to make sure the average log graph
+        has the right type
         """
-        plot_mid(mid_avg().head())
+        # read datasets and prepare arguments
+        df = session_agg()
+        df_avg = session_avg(df)
+        student = 1
+        selected_activity = sorted( df['activity'].unique() )
+        option = 'mouse_click_left'
 
-    def test_input(self):
-        """
-        Simple smoke test to make sure function runs.
-        """
-        plot_mid(1)
+        p = plot_log(df_avg, student, selected_activity, option, type='average')
 
-    def test_input_structure(self):
-        """
-        Simple smoke test to make sure function runs.
-        """
-        plot_mid(mid_avg().drop(['Student Id']))
+        self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.Chart'>")
 
-class TestPlotFinal(unittest.TestCase):
-    """
-    """
-    @staticmethod
-    def test_smoke(self):
-        """
-        Simple smoke test to make sure function runs.
-        """
-        data=final_mid(final_step_1())
-        plot_final(data.head())
 
-    def test_final_input(self):
+    def test_student_figure(self):
         """
-        Simple smoke test to make sure function runs.
+        Smoke test to make sure the student log graph
+        has the right type
         """
-        plot_final(1)
+        df = session_agg()
+        student = 1
+        selected_activity = sorted( df['activity'].unique() )
+        option = 'mouse_click_left'
 
-    def test_final_input_structure(self):
-        """
-        Simple smoke test to make sure function runs.
-        """
-        data=final_avg(final_step_1())
-        plot_final(data.drop(['Student ID']))
+        p = plot_log(df, student, selected_activity, option, type='student')
+
+        self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.Chart'>")
