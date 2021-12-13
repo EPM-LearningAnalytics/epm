@@ -1,25 +1,22 @@
 """
-Tests for functions in graph_data
+Tests for the knn function
 """
-
+import os
 import unittest
+cwd = os.getcwd()
+print(cwd)
+from epm.data_prep import log_prep
+from epm.data_prep.log_prep import *
 
-from epm.data_prep.log_prep import session_agg
-
-
-class TestSessionAgg(unittest.TestCase):
+class TestLogPrep(unittest.TestCase):
     """
+    Unittest class for test_knn.py
     """
-    @staticmethod
-    def test_smoke():
+    def test_smoke(self):
         """
-        Simple smoke test to make sure function runs.
+        Simple smoke test
         """
-        session_agg()
-    
-    def test_data_dim(self):
-        """
-        One shot test to check if data has the required
-        dimensions.
-        """
-    
+        log_prep.main()
+
+test = TestLogPrep()
+test.test_smoke()
