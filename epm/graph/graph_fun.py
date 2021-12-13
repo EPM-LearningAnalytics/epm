@@ -20,13 +20,18 @@ def plot_log(data, student, activity, y_option, type='average'):
     blocks representing the amount that the selected log activity spent on different kinds of activities.
     """
     if type == 'student':
-        df_selected = data[ (data['activity'].isin(activity)) & (data['student_id'] == student) ]
-        base = alt.Chart(df_selected, width=350, height=400)
+        if data.shape == (4169, 10):
+            df_selected = data[ (data['activity'].isin(activity)) & (data['student_id'] == student) ]
+            base = alt.Chart(df_selected, width=350, height=400)
+        else: raise ValueError("The input data is not used for plotting student log graph")
     elif type == 'average': 
-        df_avg_selected = data[ (data['activity'].isin(activity)) ]
-        base = alt.Chart(df_avg_selected, width=350, height=400)
+        if data.shape == (54, 9):
+            df_avg_selected = data[ (data['activity'].isin(activity)) ]
+            base = alt.Chart(df_avg_selected, width=350, height=400)
+        else: raise ValueError("The input data is not used for plotting average log graph")
     else: raise ValueError("Type should be either 'student' or 'average'")
     
+
     p = base.mark_bar().encode(
             x='session:N',
             y=y_option,
