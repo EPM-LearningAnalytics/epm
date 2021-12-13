@@ -4,7 +4,7 @@ import streamlit.components.v1 as components
 import pandas as pd
 import altair as alt
 
-from userDB.userDB import create_usertable, add_userdata, login_user, view_all_users
+from userDB.userDB import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
 from epm.graph import *
 
 def main():
@@ -31,20 +31,39 @@ def main():
     choice = st.sidebar.selectbox('Menu', menu)
 
     if choice == 'Home':
+        # tentative
+        if st.sidebar.checkbox('Delete UserDB'):
+            delete_usertable()
+        
+        # tentative
+        st.subheader("User Profiles")
+        create_usertable()
+        user_result = view_all_users()
+        if user_result:
+            clean_db = pd.DataFrame(user_result, columns=['Username', 'Password', 'Role'])
+            st.dataframe(clean_db)
+        else:
+            st.warning('No data in userDB') 
         page_home()
 
     elif choice == 'Log In':
         st.sidebar.subheader('Log In')
 
         role = st.sidebar.selectbox('Student or Instructor?', ['Student', 'Instructor'])
-        username = st.sidebar.text_input('ID', placeholder='35')
-        password = st.sidebar.text_input('Password', type="password", placeholder='password for ID 35')
+        username = ""
+        if role == 'Instructor':
+            username = st.sidebar.text_input('ID', placeholder='admin')
+        else:
+            student_ids = list(range(1,116))
+            username = st.sidebar.selectbox('Student ID', student_ids)
+        password = st.sidebar.text_input('Password', type="password", placeholder='password for your ID')
 
         if st.sidebar.checkbox("Log In"):
             create_usertable()
-            result = login_user(username, password)
+            result = get_userdata(username, password, role)
 
             if result and role == 'Instructor':
+
                 st.sidebar.success(f"Welcome to the instructor page, {username}")
                 page_instructor()
 
@@ -58,14 +77,24 @@ def main():
 
     elif choice == 'Sign Up':
         st.subheader("Create New Account")
-        new_user = st.text_input("Username")
+        new_role = st.selectbox('Student or Instructor?', ['Student', 'Instructor'])
+        new_username = ""
+        if new_role == 'Instructor':
+            new_username = st.text_input('ID', placeholder='admin')
+        else:
+            student_ids = list(range(1,116))
+            new_username = st.selectbox('Student ID', student_ids)
         new_password = st.text_input("Password", type='password')
 
         if st.button("Sign Up"):
             create_usertable()
-            add_userdata(new_user, new_password)
-            st.success("You have successfully created a valid account")
-            st.info("Go to Login Menu to login")
+            add_userdata(new_username, new_password, new_role)
+            new_userdata = get_userdata(new_username, new_password, new_role)
+            if new_userdata:
+                st.success("You have successfully created a valid account")
+                st.info("Go to Login Menu to login")
+            else:
+                st.warning("The inserted ID is already taken. Try a different ID")
 
     else:
         page_about()
