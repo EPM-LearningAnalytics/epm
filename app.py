@@ -173,7 +173,7 @@ def page_student(username):
 def page_instructor():
     st.header("This is the instructor page")
     option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
-                                                'Grouping Assistant', 'User Profiles'])
+                                                'Grouping Assistant'])
     
     if option == 'Class Behavior Analysis':
         # read in dataframe
@@ -246,13 +246,6 @@ def page_instructor():
 
     elif option == 'Grouping Assistant':
         st.header("Grouping Assistant")
-
-    else:
-        st.subheader("User Profiles")
-        user_result = view_all_users()
-        clean_db = pd.DataFrame(user_result, columns=['Username', 'Password'])
-        st.dataframe(clean_db)        
-
 
 
 def page_about():
