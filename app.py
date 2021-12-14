@@ -8,7 +8,9 @@ import pickle
 
 from userDB.userDB import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
 from epm.graph import *
+
 from epm.modeling import review_alert, ml_modeling as mlm
+
 
 def main():
     components.html(
@@ -269,6 +271,7 @@ def page_review_alert(username):
         value = "Reivew" if res[i] == 1 else "Pass"
         col.metric(label, value)
 
+
 def page_grouping_assistant():
     st.header("Grouping Assistant")
 
@@ -320,7 +323,6 @@ def page_grouping_assistant():
 
         st.altair_chart(c, use_container_width=False)
         st.write(cluster_result[['ID','group']].transpose())
-
     
 
 if __name__ == "__main__":
