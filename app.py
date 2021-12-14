@@ -2,10 +2,13 @@ import os
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
+import numpy as np
 import altair as alt
+import pickle
 
 from userDB.userDB import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
 from epm.graph import *
+from epm.modeling import review_alert, ml_modeling as mlm
 
 def main():
     components.html(
@@ -167,7 +170,7 @@ def page_student(username):
 
         st.write(m)
     else:
-        st.header("Review Alert")
+        page_review_alert(username)
 
 # --- Instructor Page ---
 def page_instructor():
@@ -245,7 +248,7 @@ def page_instructor():
         st.write(m)
 
     elif option == 'Grouping Assistant':
-        st.header("Grouping Assistant")
+        page_grouping_assistant()
 
 
 def page_about():
@@ -257,8 +260,68 @@ def page_behavior_analysis(id):
 def page_grades(id):
     st.header("Grades")
 
-def page_review_alert(id):
+def page_review_alert(username):
     st.header("Review Alert")
+    res = review_alert(username)[2:]
+
+    for i, col in enumerate(st.columns(5)):
+        label = "Session " + str(i+2)
+        value = "Reivew" if res[i] == 1 else "Pass"
+        col.metric(label, value)
+
+def page_grouping_assistant():
+    st.header("Grouping Assistant")
+
+    #Read data
+    objects = []
+    with (open("data/whole_data.pkl", "rb")) as openfile:
+        while True:
+            try:
+                objects.append(pickle.load(openfile))
+            except EOFError:
+                break
+    whole_data = objects[0]
+
+
+
+    whatever= '<p style="font-family:Arial; color:Blue; font-size: 20px;">User input features</p>'
+
+    st.sidebar.header("User input features")
+    features_include =  st.sidebar.selectbox("How many siginificant learning features to be included?",range(2,5))
+    cluster_timing =  st.sidebar.selectbox("Which session is the class at?",range(2,7))
+    number_of_cluster = int(st.sidebar.text_input("How many clusters to make?", 3))
+
+    with st.spinner('Compiling model...'):
+        gif_runner = st.image('static/loading.gif')
+        subdata = mlm.subset_important_features(whole_data,features_include,"common")
+        cluster_result = mlm.kmean_clustering(subdata,cluster_timing,number_of_cluster)
+
+        input_dropdown = alt.binding_select(options=np.array(range(number_of_cluster)))
+        selection = alt.selection_single(fields=['group'], 
+                                        bind=input_dropdown,
+                                        name='Cluster of')
+        color = alt.condition(selection,
+                            alt.Color('group:N', legend=None),
+                            alt.value('lightgray'))
+        x = f"{cluster_result.columns.values[0]}:Q"
+        y = f"{cluster_result.columns.values[-2]}:Q"
+        c = alt.Chart(cluster_result).mark_point().encode(
+                x=x,
+                y=y,
+                color=color,
+                tooltip='ID:Q'
+            ).add_selection(
+                selection
+            ).properties(
+                width=800,
+                height=600
+            )
+        gif_runner.empty()
+
+        st.altair_chart(c, use_container_width=False)
+        st.write(cluster_result[['ID','group']].transpose())
+
+    
 
 if __name__ == "__main__":
     main()

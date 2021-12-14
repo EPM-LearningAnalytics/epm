@@ -46,7 +46,7 @@ def subset_important_features(data_list, num_of_features, option):
         raise ValueError("'num_of_features' should be greater than 2.")
     else:
         # Subset common significant features across all sessions
-        if  option == 'different':
+        if option == 'different':
             important_features = []
             for i, session in enumerate(data_list):
                 if i == 0:

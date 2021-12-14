@@ -4,7 +4,7 @@ Team Members: Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhan
 
 ## Logo
 
-<img src="https://github.com/EPM-LearningAnalytics/epm/blob/main/logo.svg?raw=true" height="150" width="100">
+<img src="https://github.com/EPM-LearningAnalytics/static/logo.svg?raw=true" height="150" width="100">
 
 ## Background
 
@@ -42,7 +42,6 @@ Our project intends to build a **web tool** to make log data informative for stu
 ├── app.py
 └── requirements.txt
  ```
-<<<<<<< HEAD
 ## Installation
 This application is running upon the Docker container. Please download and install Docker from [its official website](https://docs.docker.com/get-docker/) if you have not installed Docker in your operating system. After the installation, please follow the steps below.
 
@@ -56,7 +55,6 @@ This application is running upon the Docker container. Please download and insta
     $ docker run -p 8501:8501 epm:latest
     ```
 4. To run the application, open your Internet browser and enter `localhost:8501`.
-=======
 
 ### Project Design
 

@@ -26,6 +26,7 @@ ipython-genutils==0.2.0
 ipywidgets==7.6.5
 jedi==0.18.1
 Jinja2==3.0.3
+joblib>= 0.11
 jsonschema==4.2.1
 jupyter-client==7.1.0
 jupyter-core==4.9.1
@@ -47,6 +48,7 @@ pandocfilters==1.5.0
 parso==0.8.3
 pexpect==4.8.0
 pickleshare==0.7.5
+pickle5==0.0.11
 Pillow==8.4.0
 prometheus-client==0.12.0
 prompt-toolkit==3.0.23
@@ -66,10 +68,13 @@ pyzmq==22.3.0
 requests==2.26.0
 Send2Trash==1.8.0
 six==1.16.0
+SciPy>= 1.1.0
+scikit-learn==1.0.1
 smmap==5.0.0
 streamlit==1.2.0
 terminado==0.12.1
 testpath==0.5.0
+threadpoolctl>= 2.0.0
 toml==0.10.2
 toolz==0.11.2
 tornado==6.1
