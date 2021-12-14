@@ -1,16 +1,14 @@
 import os
 import streamlit as st
 import streamlit.components.v1 as components
-import pandas as p
+import pandas as pd
 import numpy as np
 import altair as alt
 import pickle
 
-from userDB.userDB import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
+from epm.user_db.user_db import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
 from epm.graph import *
-
 from epm.modeling import review_alert, ml_modeling as mlm
-
 
 def main():
     components.html(
@@ -217,7 +215,7 @@ def page_instructor():
             |**`Study`**|Viewing study materials relevant to the course|
             |**`TextEditor`**|Using the text editor but not doing exercise
             |**`Other`**|When the student is not viewing any pages above|""")
-
+            
         # read in dataframe
         df = session_agg()
         df_avg = session_avg(df)
@@ -305,16 +303,15 @@ def page_review_alert(username):
 
     for i, col in enumerate(st.columns(5)):
         label = "Session " + str(i+2)
-        value = "Reivew" if res[i] == 1 else "Pass"
+        value = "Review!" if res[i] == 1 else "Safe"
         col.metric(label, value)
-
 
 def page_grouping_assistant():
     st.header("Grouping Assistant")
 
     #Read data
     objects = []
-    with (open("data/whole_data.pkl", "rb")) as openfile:
+    with (open("epm/data_prep/pickles/whole_data.pkl", "rb")) as openfile:
         while True:
             try:
                 objects.append(pickle.load(openfile))
@@ -360,6 +357,7 @@ def page_grouping_assistant():
 
         st.altair_chart(c, use_container_width=False)
         st.write(cluster_result[['ID','group']].transpose())
+
     
 
 if __name__ == "__main__":

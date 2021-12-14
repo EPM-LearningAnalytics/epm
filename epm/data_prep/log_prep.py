@@ -13,7 +13,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-def read_file(file_dir = ''):
+def read_file(file_dir = '../../data/Processes'):
     """
     Read log files from given directory
 
