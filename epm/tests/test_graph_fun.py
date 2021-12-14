@@ -87,8 +87,16 @@ class TestPlotMid(unittest.TestCase):
 
         m = plot_mid(all, area)
 
-        self.assertEqual(str(type(m)), "<class 'altair.vegalite.v4.api.Chart'>")
-
+        self.assertEqual(str(type(m)), "<class 'altair.vegalite.v4.api.LayerChart'>")
+    
+    def test_avg_size(self):
+        """
+        Edge test to make sure the function throws a ValueError when
+        area_data parameter has the wrong value
+        """
+        with self.assertRaises(ValueError):
+            all= mid_avg()[0]
+            plot_mid(all, all)
 
 
 class TestPlotMidHist(unittest.TestCase):
@@ -110,3 +118,14 @@ class TestPlotMidHist(unittest.TestCase):
 
         self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.LayerChart'>")
 
+    def test_data_hist(self):
+        """
+        Edge test to make sure it throws a ValueError
+        when the data_for_hist has the wrong dim
+        """
+        with self.assertRaises(ValueError):
+            session = 2
+            student = 1
+            data_for_hist = mid_hist(session)
+            data_summary = mid_summary(student, data_for_hist)
+            plot_mid_hist(session, student, data_summary, data_for_hist)
