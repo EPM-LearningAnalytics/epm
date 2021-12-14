@@ -63,7 +63,7 @@ def plot_mid(avg_data, area_data):
         color=alt.value('#e6bcf5')
     )
 
-    m = alt.Chart(avg_data, width=600, height=400
+    m = alt.Chart(avg_data, width=700, height=500
     ).mark_line(point=alt.OverlayMarkDef()
     ).encode(
         x=alt.X('Session'),
@@ -133,7 +133,7 @@ def plot_mid_hist(session, student, data_for_hist, data_summary):
                 title = "intermediate grades of Session "+str(session),
                 bin = alt.Bin(step = 0.5)
             ),
-            y = "count()",
+            y = "count()"
         )
         .properties(
             title = {
@@ -196,29 +196,29 @@ def plot_mid_hist(session, student, data_for_hist, data_summary):
 
     return chart_hist_conf
 
-def plot_final(data):
-    """
-    plot the line chart reflecting changes within different sessions of the class average, Q1, Q2, Q3
-    and selected students. Data is based on the final. This function works quite similarly to the plot_mid
-    but is designated for plotting the results of the final.
+# def plot_final(data):
+#     """
+#     plot the line chart reflecting changes within different sessions of the class average, Q1, Q2, Q3
+#     and selected students. Data is based on the final. This function works quite similarly to the plot_mid
+#     but is designated for plotting the results of the final.
 
-    Parameter
-    ---------
-    data: a dataframe with the same structure as graph_data.final_avg returns
+#     Parameter
+#     ---------
+#     data: a dataframe with the same structure as graph_data.final_avg returns
 
-    Return
-    ---------
-    a plot with x-axis lists different sessions, y-axis is the score. Different colors represent different
-    statistics of the scores or different students. 
-    """
-    m = alt.Chart(data, width=700, height=500
-        ).mark_line(point = True
-        ).encode(
-            x='Session', 
-            y='Avg_grades',
-            color = 'Student ID:N',
-            tooltip=['Avg_grades']
-        ).interactive().properties(
-        title = "Comparison of class and student's final grades on a standard scale")
-    return(m)
+#     Return
+#     ---------
+#     a plot with x-axis lists different sessions, y-axis is the score. Different colors represent different
+#     statistics of the scores or different students. 
+#     """
+#     m = alt.Chart(data, width=700, height=500
+#         ).mark_line(point = True
+#         ).encode(
+#             x='Session', 
+#             y='Avg_grades',
+#             color = 'Student ID:N',
+#             tooltip=['Avg_grades']
+#         ).interactive().properties(
+#         title = "Comparison of class and student's final grades on a standard scale")
+#     return(m)
 

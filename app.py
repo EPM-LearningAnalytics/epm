@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 import streamlit.components.v1 as components
-import pandas as pd
+import pandas as p
 import numpy as np
 import altair as alt
 import pickle
@@ -117,6 +117,25 @@ def page_student(username):
     student = int(username)
     if option == 'Behavior Analysis':
         st.header("Behavior Analysis")
+
+        if not st.checkbox('Show Activity Description'):
+            st.empty()
+        else: 
+            st.markdown('### Activity Descriptions')
+        
+            st.markdown("""|Activity|Description|
+            |---|---|---|---|
+            |**`Aulaweb`**|Learning management system on Moodle|
+            |**`Blank`**|When the title of a visited page is not recorded|
+            |**`Diagram`**|Testing the timing simulation of the logic network|
+            |**`FSM`**|Workinng on a exercise onn 'Finite State Machine Simulator'|
+            |**`Deeds`**|Doing activities related to circuit emage or export VHDL|
+            |**`Properties`**|Testing the required parameters under construction|
+            |**`Study`**|Viewing study materials relevant to the course|
+            |**`TextEditor`**|Using the text editor but not doing exercise
+            |**`Other`**|When the student is not viewing any pages above|""")
+
+
         # read in dataframe
         df = session_agg()
         df_avg = session_avg(df)
@@ -181,6 +200,24 @@ def page_instructor():
                                                 'Grouping Assistant'])
     
     if option == 'Class Behavior Analysis':
+
+        if not st.checkbox('Show Activity Description'):
+            st.empty()
+        else: 
+            st.markdown('### Activity Descriptions')
+        
+            st.markdown("""|Activity|Description|
+            |---|---|---|---|
+            |**`Aulaweb`**|Learning management system on Moodle|
+            |**`Blank`**|When the title of a visited page is not recorded|
+            |**`Diagram`**|Testing the timing simulation of the logic network|
+            |**`FSM`**|Workinng on a exercise onn 'Finite State Machine Simulator'|
+            |**`Deeds`**|Doing activities related to circuit emage or export VHDL|
+            |**`Properties`**|Testing the required parameters under construction|
+            |**`Study`**|Viewing study materials relevant to the course|
+            |**`TextEditor`**|Using the text editor but not doing exercise
+            |**`Other`**|When the student is not viewing any pages above|""")
+
         # read in dataframe
         df = session_agg()
         df_avg = session_avg(df)
