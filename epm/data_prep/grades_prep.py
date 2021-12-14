@@ -10,12 +10,12 @@ import glob
 import pandas as pd
 import scipy.stats as stats
 import numpy as np
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 
-def read_grades(dir1 = 'data/intermediate_grades.xlsx',
-                dir2 = 'data/final_grades.xlsx'):
+def read_grades(dir1 = '',
+                dir2 = ''):
     """
     Read grades.xlsx files
 
@@ -131,9 +131,8 @@ def standardize_grades(grades):
     """
     cols = ['MID2', 'MID3', 'MID4', 'MID5', 'MID6', 'FIN2', 'FIN3', 'FIN4','FIN5', 'FIN6']
     ID_var = grades['ID']
-    std = StandardScaler()
     features = grades[cols]
-    data_std = std.fit_transform(features)
+    data_std = StandardScaler().fit_transform(features)
     data_std = pd.DataFrame(data_std, 
                         index=features.index,
                         columns=features.columns)
@@ -169,6 +168,7 @@ def get_result(grades3):
         elif i == 6:
             filter = grades3[fin_col]<(grades3[mid_col]*1.5)
         grades3[col_name] = filter*1
+    return grades3
     
 
 def save_grades(grades,outdir = 'Explore/data/grades2.csv'):

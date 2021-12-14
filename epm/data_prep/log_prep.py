@@ -11,9 +11,9 @@ import os
 import glob
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
-
-def read_file(file_dir = 'data/Processes'):
+def read_file(file_dir = ''):
     """
     Read log files from given directory
 
@@ -52,7 +52,7 @@ def read_file(file_dir = 'data/Processes'):
 
     # confirm
     for i, session in enumerate(data_list):
-        if i == 0:continue
+        if i == 0: continue
         session_num = session['session'].unique()[0]
         print(f"{i}th element in the sessions list represents Session{session_num}")
     
@@ -106,6 +106,20 @@ def feature_manipulation(data_list):
 
 
     return data_list
+
+
+def feature_standardization(data_list):
+    scaled_data_list = data_list
+    for i, session in enumerate(data_list):
+        if i == 0: continue
+        # selecting only numericals to scale
+        # numerical = session.select_dtypes(include=['float64']).columns
+        # This will transform the selected columns and merge to the original data frame
+        # session.loc[:,numerical] = StandardScaler().fit_transform(session.loc[:,numerical])
+        session.loc[:,:] = StandardScaler().fit_transform(session.loc[:,:])
+        scaled_data_list[i] = session
+    return scaled_data_list
+
 
 def save_data(data_list,save_dir = 'justtry/logdata/'):
     """ 

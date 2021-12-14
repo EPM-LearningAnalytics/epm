@@ -6,6 +6,7 @@ import altair as alt
 
 from userDB.userDB import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
 from epm.graph import *
+from epm.modeling import review_alert
 
 def main():
     components.html(
@@ -167,7 +168,7 @@ def page_student(username):
 
         st.write(m)
     else:
-        st.header("Review Alert")
+        page_review_alert(username)
 
 # --- Instructor Page ---
 def page_instructor():
@@ -257,8 +258,16 @@ def page_behavior_analysis(id):
 def page_grades(id):
     st.header("Grades")
 
-def page_review_alert(id):
+def page_review_alert(username):
     st.header("Review Alert")
+    res = review_alert(username)[2:]
+
+    for i, col in enumerate(st.columns(5)):
+        label = "Session " + str(i+2)
+        value = "Reivew" if res[i] == 1 else "Pass"
+        col.metric(label, value)
+
+    
 
 if __name__ == "__main__":
     main()
