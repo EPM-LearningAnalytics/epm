@@ -400,7 +400,7 @@ def page_about():
             ## Seyoung
             <b><font color="#005CB9" face="Helvetica" size="3.5">Web Development Team</font> </b>    
             <br/><br/>
-            **\"I love EPM!\"**  
+            **\"Amor fati!\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">synam@uw.edu</font> </b>
             """
@@ -430,13 +430,13 @@ def page_about():
             <br/><br/>  
             **\"Yinsheng is my boss!\"**  
             <br/>
-            :email:<b><font color="#FF5733" face="Verdana" size="2.5">wjzhang@uw.edu</font> </b>
+            :email:<b><font color="#FF5733" face="Verdana" size="2.5">wjzh@uw.edu</font> </b>
             """
             ,unsafe_allow_html= True
             )
 
     with col5:    
-        st.image("static/member_photos/ys.PNG",width=200)
+        st.image("static/member_photos/ys.png",width=200)
         st.markdown(
             """
             ## Yinsheng
