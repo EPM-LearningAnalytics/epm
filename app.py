@@ -381,13 +381,13 @@ def page_about():
     col1, col2, col3, col4, col5= st.columns(5)
 
     with col1:  
-        st.image("static/member_photos/teemo.png",width=200)
+        st.image("static/member_photos/meredith.png",width=200)
         st.markdown(
             """
             ## Meredith  
             <b><font color="#005CB9" face="Helvetica" size="3.5">Visualization Team</font> </b>   
             <br/><br/>
-            **\"Go Huskies!\"**  
+            **\"I'm Yinsheng's boss!\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">mereluo@uw.edu</font> </b>
             """
@@ -395,7 +395,7 @@ def page_about():
             )
         
     with col2:       
-        st.image("static/member_photos/teemo.png",width=200)
+        st.image("static/member_photos/seyoung.png",width=200)
         st.markdown(
             """
             ## Seyoung
@@ -409,7 +409,7 @@ def page_about():
             )
 
     with col3:
-        st.image("static/member_photos/teemo.png",width=200)
+        st.image("static/member_photos/youngwon.png",width=200)
         st.markdown(
             """
             ## Yongwon
@@ -423,7 +423,7 @@ def page_about():
             )
 
     with col4: 
-        st.image("static/member_photos/teemo.png",width=200)
+        st.image("static/member_photos/wenjin.png",width=200)
         st.markdown(
             """
             ## Wenjin
