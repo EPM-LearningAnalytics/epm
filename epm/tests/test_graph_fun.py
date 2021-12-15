@@ -4,8 +4,10 @@ Tests for functions in graph_fun
 
 import unittest
 
-from epm.graph.graph_data import *
-from epm.graph.graph_fun import *
+from epm.graph.graph_data import session_agg, session_avg
+from epm.graph.graph_data import mid_avg, mid_hist, mid_summary
+from epm.graph.graph_fun import plot_log, plot_mid, plot_mid_hist
+
 
 class TestPlotLog(unittest.TestCase):
     """
@@ -17,16 +19,17 @@ class TestPlotLog(unittest.TestCase):
         has the right type
         """
         # read datasets and prepare arguments
-        df = session_agg()
-        df_avg = session_avg(df)
+        data = session_agg()
+        data_avg = session_avg(data)
         student = 1
-        activity = sorted( df['activity'].unique() )
+        activity = sorted(data['activity'].unique())
         option = 'mouse_click_left'
 
-        p = plot_log(df_avg, student, activity, option, type='average')
+        log_plot = plot_log(data_avg, student,
+                            activity, option, type='average')
 
-        self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.Chart'>")
-
+        self.assertEqual(str(type(log_plot)),
+                         "<class 'altair.vegalite.v4.api.Chart'>")
 
     def test_student_figure(self):
         """
@@ -34,41 +37,41 @@ class TestPlotLog(unittest.TestCase):
         has the right type
         """
         # read datasets and prepare arguments
-        df = session_agg()
+        data = session_agg()
         student = 1
-        activity = sorted( df['activity'].unique() )
+        activity = sorted(data['activity'].unique())
         option = 'mouse_click_left'
 
-        p = plot_log(df, student, activity, option, type='student')
+        log_plot = plot_log(data, student, activity, option, type='student')
 
-        self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.Chart'>")
-    
+        self.assertEqual(str(type(log_plot)),
+                         "<class 'altair.vegalite.v4.api.Chart'>")
+
     def test_plot_type(self):
         """
         Edge test to make sure the function throws a ValueError
         when the input type is neither 'average' nor 'student'
         """
         with self.assertRaises(ValueError):
-            df = session_agg()
+            data = session_agg()
             student = 1
-            activity = sorted( df['activity'].unique() )
+            activity = sorted(data['activity'].unique())
             option = 'mouse_click_left'
-            type='individual'
+            type = 'individual'
+            plot_log(data, student, activity, option, type)
 
-            plot_log(df, student, activity, option, type)
-    
     def test_data_type(self):
         """
         Edge test to make sure the function throws a ValueError
         when the input data is not the desired one
         """
         with self.assertRaises(ValueError):
-            df = session_agg()
+            data = session_agg()
             student = 1
-            activity = sorted( df['activity'].unique())
+            activity = sorted(data['activity'].unique())
             option = 'mouse_click_left'
 
-            plot_log(df, student, activity, option, type='average')
+            plot_log(data, student, activity, option, type='average')
 
 
 class TestPlotMid(unittest.TestCase):
@@ -81,21 +84,23 @@ class TestPlotMid(unittest.TestCase):
         has the right type
         """
         # read datasets and prepare arguments
-        all, area = mid_avg()
+        all_grades, area = mid_avg()
         student = 1
-        all = all[all['Student Id'].isin(['Average',str(student)])]
+        all_grades = all_grades[all_grades['Student Id'].isin(['Average',
+                                                               str(student)])]
 
-        m = plot_mid(all, area)
+        mid_plot = plot_mid(all_grades, area)
 
-        self.assertEqual(str(type(m)), "<class 'altair.vegalite.v4.api.LayerChart'>")
-    
+        self.assertEqual(str(type(mid_plot)),
+                         "<class 'altair.vegalite.v4.api.LayerChart'>")
+
     def test_avg_size(self):
         """
         Edge test to make sure the function throws a ValueError when
         area_data parameter has the wrong value
         """
         with self.assertRaises(ValueError):
-            all= mid_avg()[0]
+            all = mid_avg()[0]
             plot_mid(all, all)
 
 
@@ -114,9 +119,11 @@ class TestPlotMidHist(unittest.TestCase):
         data_for_hist = mid_hist(session)
         data_summary = mid_summary(student, data_for_hist)
 
-        p = plot_mid_hist(session, student, data_for_hist, data_summary)
+        hist_plot = plot_mid_hist(session, student,
+                                  data_for_hist, data_summary)
 
-        self.assertEqual(str(type(p)), "<class 'altair.vegalite.v4.api.LayerChart'>")
+        self.assertEqual(str(type(hist_plot)),
+                         "<class 'altair.vegalite.v4.api.LayerChart'>")
 
     def test_data_hist(self):
         """
