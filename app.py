@@ -2,7 +2,6 @@
 This module contains functions and contents to run streamlit application.
 """
 
-import os
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -75,7 +74,7 @@ def main():
 
             else:
                 st.sidebar.warning("Incorrect Username/Password")
-                
+
 
     elif choice == 'Sign Up':
         st.subheader("Create New Account")
@@ -112,7 +111,6 @@ def page_home():
 
     Return: None
     """
-    st.header("Home")
     st.image("static/homepage.png")
     st.markdown("""
 
@@ -120,7 +118,7 @@ def page_home():
 
     > This website aims to provide visualizations and predictions based on our machine 
     learning model to help you make sense of log data representing your online learning behaviors.
-    > 
+    >
 
     If you have any suggestions, please visit our [**GitHub Repo**](https://github.com/EPM-LearningAnalytics/epm) 
     and raise a new issue!
@@ -134,13 +132,13 @@ def page_home():
         1. For each session, how you performed compared to the whole class
         2. Across 6 sessions, how your grades changed
     3. **📚 For Students - Review Alert:** predictions based on our machine learning models
-        1. If you got **Review!**, it indicates that you need to review this session before final in order to 
+        1. If you got **Study!!**, it indicates that you need to review this session before final in order to
         answer questions related to this session in the final correctly.
-        2. If you got **Safe**, it indicates that you can spend less time on this session since we 
+        2. If you got **0**, it indicates that you can spend less time on this session since we
         predict that you already know the content pretty well.
-    4. 👩‍🏫 **For** **instructors - Grouping Assistant:** 
-        1. Students will be grouped into number of groups based on their performance level, 
-        and instructors can make class project groups with similar performance level. 
+    4. 👩‍🏫 **For** **instructors - Grouping Assistant:**
+        1. Students will be grouped into number of groups based on their performance level,
+        and instructors can make class project groups with similar performance level.
 
     ## Navigation Instruction:
 
@@ -149,16 +147,16 @@ def page_home():
 
     st.markdown("""
     Once you logged in, you can select which sections you'd like to focus on
-        
+
     **For students:**
 
         """)
     st.image("static/student.png")
-    
+
     st.markdown("""
         **For Instructor:**""")
     st.image("static/instructor.png")
-        
+
 
     st.markdown("""
     ---------------------------------
@@ -171,7 +169,7 @@ def page_home():
 # --- Student Page ---
 def page_student(username):
     """
-    present the entire sources and codes for the student section 
+    present the entire sources and codes for the student section
     in the application. The main features consist of `Behavior Analysis`,
     `Grades`, and `Review Alert`.
 
