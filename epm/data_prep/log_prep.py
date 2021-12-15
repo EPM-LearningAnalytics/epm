@@ -12,7 +12,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 
 
-def read_file(file_dir='/EPM_dataset/Data/Processes'):
+def read_file(file_dir='../../data/Processes'):
     """
     Read log files from given directory
 
@@ -29,30 +29,34 @@ def read_file(file_dir='/EPM_dataset/Data/Processes'):
         if files:
             session = []
             for file in files:
-                path = os.path.join(root, file)
-                log = pd.read_csv(path, sep=",", header=None)
-                session.append(log)
-            session_pd = pd.concat(session)
-            session_pd.columns = ["session", "student_id", "exercise",
-                                  "activity", 'start_time', 'end_time',
-                                  'idle_time', 'mouse_wheel', 'mouse_wheel_click',
-                                  'mouse_click_left', 'mouse_click_right', 'mouse_movement',
-                                  'keystroke']
-            sessions.append(session_pd)
+                if file != '.DS_Store':
+                    path = os.path.join(root, file)
+                    log = pd.read_csv(path, sep=",", header=None)
+                    session.append(log)
+            if session:
+                session_pd = pd.concat(session)
+                session_pd.columns = ["session", "student_id", "exercise", 
+                            "activity",'start_time','end_time',
+                            'idle_time','mouse_wheel','mouse_wheel_click','mouse_click_left',
+                            'mouse_click_right','mouse_movement','keystroke']
+                sessions.append(session_pd)
+    
     # Insert the ordered session data to the data_list array.
     data_list = [0]*7
     session_num = 0
     while sessions:
         session_num = int(sessions[0]['session'].unique())
         data_list[session_num] = sessions.pop(0)
-        session_num += 1
-    # Confirm
+        session_num +=1
+
+    # confirm
     for i, session in enumerate(data_list):
-        if i == 0:
-            continue
+        if i == 0: continue
         session_num = session['session'].unique()[0]
         print(f"{i}th element in the sessions list represents Session{session_num}")
+    
     return data_list
+
 
 
 def feature_manipulation(data_list):
@@ -163,7 +167,7 @@ def merge_all_data(data_list, grades):
     return data_list
 
 
-def save_data(data_list, save_dir='/EPM_dataset/Data/'):
+def save_data(data_list, save_dir='../../data/'):
     """
     Save processed data to csv files
 

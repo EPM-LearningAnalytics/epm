@@ -9,6 +9,7 @@ and detects student behavior and grouping students
 
 # Load libraries
 import pandas as pd
+import pickle
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
@@ -48,13 +49,14 @@ def subset_important_features(data_list, num_of_features, option):
         # Subset common significant features across all sessions
         if option == 'different':
             important_features = []
+            res_list = [0]
             for i, session in enumerate(data_list):
                 if i == 0:
-                    continue
+                    continue # pass session 1 that does not have intermediate scores
                 ivs = session.drop(columns=['ID', 'Y'])
                 outcome = session['Y']
                 clf = ExtraTreesClassifier(n_estimators=50)
-                clf = clf.fit(ivs, outcome)
+                clf.fit(ivs, outcome)
                 feat_importances = pd.Series(clf.feature_importances_, index=ivs.columns)
                 features = feat_importances.nlargest(num_of_features).index[0:num_of_features]
                 important_features.append(pd.DataFrame(features, columns=['session' + str(i+1)]))
@@ -63,8 +65,8 @@ def subset_important_features(data_list, num_of_features, option):
             for i, session in enumerate(data_list):
                 if i == 0:
                     continue
-                data_list[i] = session[important_features[i-1]['session'+str(i+1)]]
-            return data_list
+                res_list.append(session[important_features[i-1]['session'+str(i+1)]])
+            return res_list
 
         # Subset significant features from each session
         elif option == 'common':
@@ -86,7 +88,7 @@ def subset_important_features(data_list, num_of_features, option):
                 num = len(common_features)
                 j += 1
             if len(common_features) > num_of_features-1:
-                common_features = common_features[0:num_of_features]
+                common_features = common_features[0:num_of_features-1]
                 for i, session in enumerate(data_list):
                     if i == 0:
                         continue
@@ -131,44 +133,57 @@ def machine_learning_model(data_list, ml_model):
     if not isinstance(ml_model, str) is True:
         raise ValueError("'ml_model' should be a string.")
     else:
+        res_list = data_list.copy()
         for i, session in enumerate(data_list):
             if i == 0:
                 continue
-            ivs = session.drop(columns=['Y'])
+            ivs = session.drop(columns=['Y', 'ID'])
             outcome = session['Y']
             # Fit the K-nearest neighbors
             if ml_model == 'KNN':
                 cknn = KNeighborsClassifier(n_neighbors=10, metric='minkowski',
                                             p=2).fit(ivs, outcome)
                 predict = cknn.predict(ivs)
+                filename = '../data_prep/pickles/trained_models/KNN_session_' + str(i+1) + '_featnum_' + str(len(session.columns)-2)
+                pickle.dump(cknn, open(filename, 'wb'))
                 session = session.assign(Predicted_Y=predict)
             # Fit the decision tree
             elif ml_model == 'DT':
                 cdt = DecisionTreeClassifier(criterion='entropy').fit(ivs, outcome)
                 predict = cdt.predict(ivs)
+                filename = '../data_prep/pickles/trained_models/DT_session_' + str(i+1) + '_featnum_' + str(len(session.columns)-2)
+                pickle.dump(cdt, open(filename, 'wb'))
                 session = session.assign(Predicted_Y=predict)
             # Fit the random forest
             elif ml_model == 'RF':
                 crf = RandomForestClassifier(n_estimators=10, criterion='entropy').fit(ivs, outcome)
                 predict = crf.predict(ivs)
+                filename = '../data_prep/pickles/trained_models/RF_session_' + str(i+1) + '_featnum_' + str(len(session.columns)-2)
+                pickle.dump(crf, open(filename, 'wb'))
                 session = session.assign(Predicted_Y=predict)
             # Fit the naive bayes
             elif ml_model == 'NB':
                 cnb = GaussianNB().fit(ivs, outcome)
                 predict = cnb.predict(ivs)
+                filename = '../data_prep/pickles/trained_models/NB_session_' + str(i+1) + '_featnum_' + str(len(session.columns)-2)
+                pickle.dump(cnb, open(filename, 'wb'))
                 session = session.assign(Predicted_Y=predict)
             # Fit the logistic regression
             elif ml_model == 'LR':
                 clr = LogisticRegression(solver='liblinear').fit(ivs, outcome)
                 predict = clr.predict(ivs)
+                filename = '../data_prep/pickles/trained_models/LR_session_' + str(i+1) + '_featnum_' + str(len(session.columns)-2)
+                pickle.dump(clr, open(filename, 'wb'))
                 session = session.assign(Predicted_Y=predict)
             # Fir the support vector classfier
             elif ml_model == 'SVC':
                 csvm = SVC(kernel='rbf', random_state=0).fit(ivs, outcome)
                 predict = csvm.predict(ivs)
+                filename = '../data_prep/pickles/trained_models/SVC_session_' + str(i+1) + '_featnum_' + str(len(session.columns)-2)
+                pickle.dump(csvm, open(filename, 'wb'))
                 session = session.assign(Predicted_Y=predict)
-            data_list[i] = session
-        return data_list
+            res_list[i] = session
+        return res_list
 
 
 def kmean_clustering(data_list, num_of_sessions, num_of_clusters):
@@ -235,11 +250,4 @@ def kmean_clustering(data_list, num_of_sessions, num_of_clusters):
                 y_pred = kmeans.fit_predict(data_for_fitting)
                 new_data_list[i-1] = new_data_list[i-1].assign(group=y_pred)
         return new_data_list[num_of_sessions-2]
-
-
-def main():
-    print('Done!')
-
-
-if __name__ == '__main__':
-    main()
+        

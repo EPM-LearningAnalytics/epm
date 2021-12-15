@@ -9,8 +9,8 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 
 
-def read_grades(dir1='EPM_Project/EPM_dataset/Data/intermediate_grades.xlsx',
-                dir2='EPM_Project/EPM_dataset/Data/final_grades.xlsx'):
+def read_grades(dir1='../../data/intermediate_grades.xlsx',
+                dir2='../../data/final_grades.xlsx'):
     """
     Read grades.xlsx files
     Parameters
