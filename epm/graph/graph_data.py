@@ -43,6 +43,14 @@ def session_avg(log_session):
     A dataframe with 54 rows and 9 columns
 
     """
+    if not isinstance(log_session, pd.DataFrame):
+        raise ValueError("input is not a dataframe")
+    else:
+        pass
+    if log_session.shape[1]!=10:
+        raise ValueError("columns' number doesn't satisfy the demand")
+    else:
+        pass
     class_average = log_session.groupby(['session','activity']).mean()
     class_average = class_average.reset_index().drop(columns='student_id')
 
@@ -118,6 +126,14 @@ def mid_hist(session):
     for the convenience of next step's data preprocessing.
 
     """
+    if not isinstance(session, int):
+        raise ValueError("The input data is not of type int")
+    else:
+        pass
+    if session not in list( (2, 3, 4, 5, 6) ):
+        raise ValueError("The input number cannot refer to a session")
+    else:
+        pass
     data = pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
 
     data_for_hist = data[['Student Id','Session '+str(session)]]
@@ -145,6 +161,22 @@ def mid_summary(student, data_for_hist):
     but useful when plotting the several layers.
 
     """
+    if not isinstance(student, int):
+        raise ValueError("The first parameter input is not of type int")
+    else:
+        pass
+    if not isinstance(data_for_hist, pd.DataFrame):
+        raise ValueError("The second parameter input is not of type dataframe")
+    else:
+        pass
+    if data_for_hist.shape[1]!=2:
+        raise ValueError("Column number is not right")
+    else:
+        pass
+    if student not in data_for_hist['Student_Id']:
+        raise ValueError("Cannot find the input student id")
+    else:
+        pass
     data_summary = (
         data_for_hist
         .describe()
