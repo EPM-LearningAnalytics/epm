@@ -494,11 +494,14 @@ def page_grouping_assistant():
     whole_data = objects[0]
 
     whatever= '<p style="font-family:Arial; color:Blue; font-size: 20px;">User input features</p>'
-
-    st.sidebar.header("User input features")
-    features_include =  st.sidebar.selectbox("How many siginificant learning features to be included?",range(2,5))
-    cluster_timing =  st.sidebar.selectbox("Which session is the class at?",range(2,7))
-    number_of_cluster = int(st.sidebar.text_input("How many clusters to make?", 3))
+    st.header("User input features")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        features_include =  st.selectbox("How many siginificant learning features to be included?",range(2,5))
+    with col2:
+        cluster_timing =  st.selectbox("Which session is the class at?",range(2,7))
+    with col3:
+        number_of_cluster = int(st.text_input("How many clusters to make?", 3))
 
     with st.spinner('Compiling model...'):
         gif_runner = st.image('static/loading.gif')
