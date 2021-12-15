@@ -118,7 +118,6 @@ def mid_hist(session):
     for the convenience of next step's data preprocessing.
 
     """
-    if
     data = pd.read_excel('data/intermediate_grades.xlsx',engine='openpyxl')
 
     data_for_hist = data[['Student Id','Session '+str(session)]]
