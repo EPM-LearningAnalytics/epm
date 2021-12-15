@@ -50,6 +50,6 @@ def review_alert(id, feat_num):
         res.append(row)
 
     df = pd.DataFrame(res,
-                      index=['K-Nearest Neighbors', 'Decision Tree', 'Random Forest', 'Baive Bayes', 'Log Regression', 'Support Vector Classfier'], 
+                      index=['K-Nearest Neighbors', 'Decision Tree', 'Random Forest', 'Naive Bayes', 'Log Regression', 'Support Vector Classfier'], 
                       columns=columns)
     return df
