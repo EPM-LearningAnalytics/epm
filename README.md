@@ -1,11 +1,10 @@
-[![HitCount](http://hits.dwyl.com/EPM-LearningAnalytics/epm.svg?style=flat-square)](http://hits.dwyl.com/EPM-LearningAnalytics/epm)
-# Educational Process Mining
+#EPM (Educational Process Mining)
 
 Team Members: Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhang
 
 ## Logo
 
-<img src="https://github.com/EPM-LearningAnalytics/epm/blob/main/static/logo.svg?raw=true" height="150" width="100">
+<img src="https://github.com/EPM-LearningAnalytics/epm/static/logo.svg?raw=true" height="150" width="100">
 
 ## Background
 
