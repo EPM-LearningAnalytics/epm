@@ -93,14 +93,11 @@ def plot_mid(avg_data, area_data):
                     ),
                 tooltip=['Avg_grades']
                 ).interactive().properties(
-                    title={'text': "Class and student's average \
-                                       session grades",
-                           "subtitle": ["Comparsion between students' \
-                                            session grades and class \
-                                            average grades.",
-                                        "The shaded area: scores above \
-                                            20% and below 80% \
-                                            of students scores"]})
+                    title={'text':
+                           "Class and student's average session grades",
+                           "subtitle":
+                           ["Comparsion between students' session grades and class average grades.",
+                            "The shaded area: scores above 20% and below 80% of students scores"]})
 
     mid_plot = mid_plot + area
 
@@ -173,15 +170,13 @@ def plot_mid_hist(session, student, data_for_hist, data_summary):
         )
         .properties(
             title={
-                "text": "Distribution of intermediate \
-                        grades of Session "+str(session),
-                "subtitle": ["According to the Intermediate data, \
-                             students score "+str(mean)+" points, on average.",
-                             " The median score of the class is "+str(median)+". \
-                             For 25 percent students earn a score of more \
-                             than "+str(q_3)+". ",
-                             " counting those who haven't take the intermediate, \
-                             25 percent of students score less than "+str(q_1)]
+                "text": "Distribution of intermediate grades of Session " +
+                        str(session),
+                "subtitle": ["According to the Intermediate data, students score " +
+                             str(mean)+" points, on average.",
+                             " The median score of the class is " + str(median) +
+                             ". For 25 percent students earn a score of more than "+str(q_3)+". ",
+                             " counting those who haven't take the intermediate, 25 percent of students score less than "+str(q_1)]
             },
             width=c_chart_width,
             height=c_chart_height
