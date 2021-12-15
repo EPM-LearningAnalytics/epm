@@ -46,19 +46,6 @@ def main():
     choice = st.sidebar.selectbox('Menu', menu)
 
     if choice == 'Home':
-        # tentative
-        if st.sidebar.checkbox('Delete UserDB'):
-            delete_usertable()
-        
-        # tentative
-        st.subheader("User Profiles")
-        create_usertable()
-        user_result = view_all_users()
-        if user_result:
-            clean_db = pd.DataFrame(user_result, columns=['Username', 'Password', 'Role'])
-            st.dataframe(clean_db)
-        else:
-            st.warning('No data in userDB') 
         page_home()
 
     elif choice == 'Log In':
@@ -280,7 +267,7 @@ def page_instructor():
     """
     st.header("This is the instructor page")
     option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
-                                                'Grouping Assistant'])
+                                                'Grouping Assistant', 'User Management'])
     
     if option == 'Class Behavior Analysis':
         
@@ -366,6 +353,19 @@ def page_instructor():
 
     elif option == 'Grouping Assistant':
         page_grouping_assistant()
+    
+    elif option == 'User Management':
+        if st.sidebar.checkbox('Delete UserDB'):
+            delete_usertable()
+        
+        st.subheader("User Profiles")
+        create_usertable()
+        user_result = view_all_users()
+        if user_result:
+            clean_db = pd.DataFrame(user_result, columns=['Username', 'Password', 'Role'])
+            st.dataframe(clean_db)
+        else:
+            st.warning('No data in userDB') 
 
 
 def page_about():
