@@ -199,3 +199,18 @@ def save_grades(grades, outdir='EPM_dataset/Data/complete_grades.csv'):
     # Save
     grades.to_csv(outdir)
     return print("Saved")
+
+
+def main():
+    mid,fin1,fin2 = read_grades()
+    fin = final_manipulation(fin1,fin2)
+    mid = rebase_mid(mid)
+    grades = merge_mid_final(mid,fin)
+    std_grades = standardize_grades(grades)
+    get_result(std_grades)
+    #save_grades(std_grades)
+    print('Done!')
+
+
+if __name__ == '__main__':
+    main()

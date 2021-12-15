@@ -9,7 +9,7 @@ A module that tests ml_modeling.py
 # Load libraries
 import unittest
 import pandas as pd
-import modeling.ml_modeling as mm
+import epm.modeling.ml_modeling as mm
 
 
 # test data_list for the unittest

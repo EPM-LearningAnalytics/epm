@@ -190,3 +190,14 @@ def save_data(data_list, save_dir='../../data/'):
         file_name = "variables_session_" + str(i) + "_not_filtered.csv"
         session.to_csv(save_dir + file_name)
     return print("Saved")
+
+
+def main():
+    A = read_file()
+    A = feature_manipulation(A)
+    save_data(A)
+    return 
+
+
+if __name__ == '__main__':
+    main() 

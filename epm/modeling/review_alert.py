@@ -1,8 +1,35 @@
+"""
+This module creates a dataframe that represents which sessions a student 
+is recommended to review first before the final exam. 
+"""
 import os
-import pickle
 import pandas as pd
+import pickle
+
 
 def review_alert(id, feat_num):
+    """
+    retrieve data and trained models from pickle files, 
+    predict which sessions are to be prioritized for review. 
+
+    Parameter
+    ---------
+    id: student ID
+    feat_num: the number of features to consider 
+    when predicting sessions to review
+
+    Return
+    ---------
+    a dataframe containing 0 and 1, with rows for regression models
+    and columns for sessions. 0 represents the corresponding session 
+    is not prioritized to review, while 1 refers to the review priority. 
+    """
+    if id == '' or feat_num == '':
+        raise TypeError("'id' and 'feat_num' should be provided.")
+
+    if feat_num not in [3, 4, 5, '3', '4', '5']:
+        raise ValueError("'feat_num' should be either 3, 4, or 5.")
+
     res = []
     models = ['KNN', 'DT', 'RF', 'NB', 'LR', 'SVC']
     columns = ['Session 2', 'Session 3', 'Session 4', 'Session 5', 'Session 6']
