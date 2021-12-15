@@ -60,10 +60,10 @@ Due to the dataset that we are building models on being **very specific** to the
 * Final grades data
 
 
-### **4. A HTML page**
-* It displays visualizations, a grouping function for team projects, predictions of the final scores, and suggestions for students’ learning/reviewing for the final.
+### **4. A Streamlit page**
+* It displays visualizations, a grouping function for team projects, and suggestions for students’ learning/reviewing for the final.
 * **Input** : First, they need to specify whether they are students or teachers. Second, if they are students, then they need to provide a student ID. 
-* **Output** : For students, they will see visualizations of their individual learning progress and they can compare it with the class average learning activities. They are also able to see based on their current learning activities, what’s the probability of them passing the final exam. Some suggestions on reviewing particular sessions could be provided. For teachers, they can see the visualizations of the whole class. They can also zoom in on one particular student. They are also able to see what the probability of passing the exam for every student is. 
+* **Output** : For students, they will see visualizations of their individual learning progress and they can compare it with the class average learning activities. They are also able to see based on their current learning activities, what’s the suggestions on reviewing particular sessions could be provided. For teachers, they can see the visualizations of the whole class. They can also zoom in on one particular student. They are also able to group students for class project based on the clustering results.
 
 
 
