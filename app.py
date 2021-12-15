@@ -106,7 +106,60 @@ def main():
 
 def page_home():
     st.header("Home")
+    st.image("static/homepage.png")
+    st.markdown("""
 
+    # Welcome! Instructors and Students!
+
+    > This website aims to provide visualizations and predictions based on our machine 
+    learning model to help you make sense of log data representing your online learning behaviors.
+    > 
+
+    If you have any suggestions, please visit our [**GitHub Repo**](https://github.com/EPM-LearningAnalytics/epm) 
+    and raise a new issue!
+
+    ## Services Provided:
+
+    1. **💻 Behavioral Analysis:** Showing the distribution of log activities across different types of activities for each session.
+        1. Which activity you engaged with the most
+        2. Which session you spent most time on
+    2. **💯 Grades:** Showing the distribution of grades in one session, and the changes of session grades across 6 sessions. You'll know
+        1. For each session, how you performed compared to the whole class
+        2. Across 6 sessions, how your grades changed
+    3. **📚 For Students - Review Alert:** predictions based on our machine learning models
+        1. If you got **Review!**, it indicates that you need to review this session before final in order to 
+        answer questions related to this session in the final correctly.
+        2. If you got **Safe**, it indicates that you can spend less time on this session since we 
+        predict that you already know the content pretty well.
+    4. 👩‍🏫 **For** **instructors - Grouping Assistant:** 
+        1. Students will be grouped into number of groups based on their performance level, 
+        and instructors can make class project groups with similar performance level. 
+
+    ## Navigation Instruction:
+
+    On the sidebar, you can `Sign Up`or `Log In`""")
+    st.image("static/menu.png")
+
+    st.markdown("""
+    Once you logged in, you can select which sections you'd like to focus on
+        
+    **For students:**
+
+        """)
+    st.image("static/student.png")
+    
+    st.markdown("""
+        **For Instructor:**""")
+    st.image("static/instructor.png")
+        
+
+    st.markdown("""
+    ---------------------------------
+    **This website is supported by:**
+
+    Streamlit | Docker | Altair | Sklearn""")
+
+    st.image("static/tech.png")
 
 # --- Student Page ---
 def page_student(username):
