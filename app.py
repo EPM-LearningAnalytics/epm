@@ -166,6 +166,7 @@ def page_home():
 
     st.image("static/tech.png")
 
+
 # --- Student Page ---
 def page_student(username):
     """
@@ -182,7 +183,7 @@ def page_student(username):
     student = int(username)
     if option == 'Behavior Analysis':
         st.header("Behavior Analysis")
-    
+
         st.markdown("""|Activity|Description|
         |---|---|---|---|
         |**`Aulaweb`**|Learning management system on Moodle|
@@ -212,7 +213,7 @@ def page_student(username):
         selected_activity = st.multiselect('2. Which activity do you want to include', 
                                                 sorted_activity_unique,
                                                 sorted_activity_unique)
-        
+
         # --- Class Average Plot ---
         p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
             title = 'Class Average')
@@ -232,7 +233,7 @@ def page_student(username):
         st.header("Grades")
         # --- each session histogram plot ---
         session = st.radio('Which session?', (2, 3, 4, 5, 6), 0)
-        
+
         # prepare datasets
         data_for_hist = mid_hist(session)
         data_summary = mid_summary(student, data_for_hist)
@@ -266,9 +267,9 @@ def page_instructor():
     st.header("This is the instructor page")
     option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
                                                 'Grouping Assistant', 'User Management'])
-    
+
     if option == 'Class Behavior Analysis':
-        
+
         st.markdown("""|Activity|Description|
         |---|---|---|---|
         |**`Aulaweb`**|Learning management system on Moodle|
@@ -280,12 +281,12 @@ def page_instructor():
         |**`Study`**|Viewing study materials relevant to the course|
         |**`TextEditor`**|Using the text editor but not doing exercise
         |**`Other`**|When the student is not viewing any pages above|""")
-            
+
         # read in dataframe
         df = session_agg()
         df_avg = session_avg(df)
 
-        # Slider - Student Slider 
+        # Slider - Student Slider
         student = st.slider('1. Which student?', 1, 115)
 
         # Selectbox - log activity selection
@@ -304,7 +305,7 @@ def page_instructor():
 
         # --- Class Average Plot ---
         p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
-            title = 'Class Average')
+            title='Class Average')
 
         # --- Student Activity Distribution Plot ---
         s = plot_log(df, student, selected_activity, option, type='student').properties(
