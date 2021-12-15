@@ -4,7 +4,7 @@ Team Members: Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhan
 
 ## Logo
 
-![EPM Logo](/static/logo.svg){:height="150" width="100"}
+![EPM Logo](/static/logo.svg)
 
 ## Background
 
