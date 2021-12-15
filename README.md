@@ -1,4 +1,4 @@
-#EPM (Educational Process Mining)
+# EPM (Educational Process Mining)
 
 Team Members: Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhang
 
