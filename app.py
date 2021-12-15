@@ -1,3 +1,8 @@
+"""
+This module contains functions and contents to run streamlit application.
+"""
+
+import os
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
@@ -5,14 +10,19 @@ import numpy as np
 import altair as alt
 import pickle
 
-from epm.user_db.user_db import create_usertable, add_userdata, get_userdata
-from epm.user_db.user_db import view_all_users, delete_usertable
-
+from epm.user_db.user_db import create_usertable, add_userdata, get_userdata, view_all_users, delete_usertable
 from epm.graph import *
 from epm.modeling import review_alert, ml_modeling as mlm
 
-
 def main():
+    """
+    present the entire sources and codes for the application.
+    The main sections consists of `Home`, `Log In`, `Sign Up`, and `About`.
+
+    Parameter: None
+
+    Return: None
+    """
     components.html(
         """
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
@@ -23,10 +33,10 @@ def main():
                     <rect y="3" width="37" height="156" rx="5" fill="#7ACBCD"/>
                     <rect x="45" y="3" width="37" height="156" rx="5" fill="#FB8282"/>
                     <rect x="88" y="13.2224" width="37" height="156" rx="5" transform="rotate(-20.9382 88 13.2224)" fill="#7B61FF"/>
-                </svg>
+                </svg>            
             </div>
             <div class="alignleft" style="text-align: justify;">
-                <h1>Educational Process Mining</h1>
+                <h1>Educational Process Mining</h1>            
             </div>
         </div>
         """
@@ -39,6 +49,7 @@ def main():
         # tentative
         if st.sidebar.checkbox('Delete UserDB'):
             delete_usertable()
+        
         # tentative
         st.subheader("User Profiles")
         create_usertable()
@@ -47,7 +58,7 @@ def main():
             clean_db = pd.DataFrame(user_result, columns=['Username', 'Password', 'Role'])
             st.dataframe(clean_db)
         else:
-            st.warning('No data in userDB')
+            st.warning('No data in userDB') 
         page_home()
 
     elif choice == 'Log In':
@@ -58,7 +69,7 @@ def main():
         if role == 'Instructor':
             username = st.sidebar.text_input('ID', placeholder='admin')
         else:
-            student_ids = list(range(1, 116))
+            student_ids = list(range(1,116))
             username = st.sidebar.selectbox('Student ID', student_ids)
         password = st.sidebar.text_input('Password', type="password", placeholder='password for your ID')
 
@@ -77,6 +88,8 @@ def main():
 
             else:
                 st.sidebar.warning("Incorrect Username/Password")
+                
+
     elif choice == 'Sign Up':
         st.subheader("Create New Account")
         new_role = st.selectbox('Student or Instructor?', ['Student', 'Instructor'])
@@ -102,19 +115,27 @@ def main():
         page_about()
 
 
+
 def page_home():
+    """
+    present the entire sources and codes for the homepage section 
+    in the application, mainly including the `How-to-use` instruction.
+
+    Parameter: None
+
+    Return: None
+    """
     st.header("Home")
     st.image("static/homepage.png")
     st.markdown("""
 
     # Welcome! Instructors and Students!
 
-    > This website aims to provide visualizations and predictions based on our
-    machine learning model to help you make sense of log data representing your
-    online learning behaviors.
-    >
+    > This website aims to provide visualizations and predictions based on our machine 
+    learning model to help you make sense of log data representing your online learning behaviors.
+    > 
 
-    If you have any suggestions, please visit our [**GitHub Repo**](https://github.com/EPM-LearningAnalytics/epm)
+    If you have any suggestions, please visit our [**GitHub Repo**](https://github.com/EPM-LearningAnalytics/epm) 
     and raise a new issue!
 
     ## Services Provided:
@@ -126,13 +147,13 @@ def page_home():
         1. For each session, how you performed compared to the whole class
         2. Across 6 sessions, how your grades changed
     3. **📚 For Students - Review Alert:** predictions based on our machine learning models
-        1. If you got **Review!**, it indicates that you need to review this session before final in order to
+        1. If you got **Review!**, it indicates that you need to review this session before final in order to 
         answer questions related to this session in the final correctly.
-        2. If you got **Safe**, it indicates that you can spend less time on this session since we
+        2. If you got **Safe**, it indicates that you can spend less time on this session since we 
         predict that you already know the content pretty well.
-    4. 👩‍🏫 **For** **instructors - Grouping Assistant:**
-        1. Students will be grouped into number of groups based on their performance level,
-        and instructors can make class project groups with similar performance level.
+    4. 👩‍🏫 **For** **instructors - Grouping Assistant:** 
+        1. Students will be grouped into number of groups based on their performance level, 
+        and instructors can make class project groups with similar performance level. 
 
     ## Navigation Instruction:
 
@@ -141,15 +162,16 @@ def page_home():
 
     st.markdown("""
     Once you logged in, you can select which sections you'd like to focus on
-
+        
     **For students:**
 
         """)
     st.image("static/student.png")
-
+    
     st.markdown("""
         **For Instructor:**""")
     st.image("static/instructor.png")
+        
 
     st.markdown("""
     ---------------------------------
@@ -159,16 +181,23 @@ def page_home():
 
     st.image("static/tech.png")
 
-
 # --- Student Page ---
 def page_student(username):
+    """
+    present the entire sources and codes for the student section 
+    in the application. The main features consist of `Behavior Analysis`,
+    `Grades`, and `Review Alert`.
+
+    Parameter: None
+
+    Return: None
+    """
     st.header("Student page")
-    option = st.selectbox("Options to choose", ['Behavior Analysis', 'Grades',
-                                                'Review Alert'])
+    option = st.selectbox("Options to choose", ['Behavior Analysis', 'Grades', 'Review Alert'])
     student = int(username)
     if option == 'Behavior Analysis':
         st.header("Behavior Analysis")
-
+    
         st.markdown("""|Activity|Description|
         |---|---|---|---|
         |**`Aulaweb`**|Learning management system on Moodle|
@@ -186,27 +215,26 @@ def page_student(username):
         df_avg = session_avg(df)
 
         # Selectbox - log activity selection
-        log_activity = ['mouse_click_left', 'mouse_wheel', 'idle_time',
-                        'mouse_wheel_click', 'mouse_click_right',
-                        'mouse_movement', 'keystroke']
+        log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 
+                        'mouse_wheel_click','mouse_click_right',
+                        'mouse_movement','keystroke']
         option = st.selectbox(
         '1. Which log activity you like to focus on?',
         log_activity)
 
         # Multiselect - Activity selection
-        sorted_activity_unique = sorted(df['activity'].unique())
-        selected_activity = st.multiselect('2. Which activity do you want to include',
+        sorted_activity_unique = sorted( df['activity'].unique() )
+        selected_activity = st.multiselect('2. Which activity do you want to include', 
                                                 sorted_activity_unique,
                                                 sorted_activity_unique)
-
+        
         # --- Class Average Plot ---
-        p = plot_log(df_avg, student, selected_activity, option,
-                     type='average').properties(title='Class Average')
+        p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
+            title = 'Class Average')
 
         # --- Student Activity Distribution Plot ---
-        s = plot_log(df, student, selected_activity, option,
-                     type='student').properties(
-                         title='Student' + ' ' + str(student) + ' ' + option)
+        s = plot_log(df, student, selected_activity, option, type='student').properties(
+            title='Student' + ' ' + str(student) + ' ' + option)
 
         # Present graphs side by side
         x = alt.hconcat(
@@ -219,7 +247,7 @@ def page_student(username):
         st.header("Grades")
         # --- each session histogram plot ---
         session = st.radio('Which session?', (2, 3, 4, 5, 6), 0)
-
+        
         # prepare datasets
         data_for_hist = mid_hist(session)
         data_summary = mid_summary(student, data_for_hist)
@@ -231,7 +259,7 @@ def page_student(username):
         # prepare datasets
         all, area = mid_avg()
 
-        all = all[all['Student Id'].isin(['Average', str(student)])]
+        all = all[all['Student Id'].isin(['Average',str(student)])]
 
         m = plot_mid(all, area)
 
@@ -239,16 +267,23 @@ def page_student(username):
     else:
         page_review_alert(username)
 
-
 # --- Instructor Page ---
 def page_instructor():
+    """
+    present the entire sources and codes for the instructor section 
+    in the application. The main features consists of
+    `Class Behavior Analysis`, `Class Grades`, `Grouping Assistant`.
+
+    Parameter: None
+
+    Return: None
+    """
     st.header("This is the instructor page")
-    option = st.selectbox("Options to choose", ['Class Behavior Analysis',
-                                                'Class Grades',
+    option = st.selectbox("Options to choose", ['Class Behavior Analysis', 'Class Grades', 
                                                 'Grouping Assistant'])
-
+    
     if option == 'Class Behavior Analysis':
-
+        
         st.markdown("""|Activity|Description|
         |---|---|---|---|
         |**`Aulaweb`**|Learning management system on Moodle|
@@ -260,43 +295,42 @@ def page_instructor():
         |**`Study`**|Viewing study materials relevant to the course|
         |**`TextEditor`**|Using the text editor but not doing exercise
         |**`Other`**|When the student is not viewing any pages above|""")
-
+            
         # read in dataframe
         df = session_agg()
         df_avg = session_avg(df)
 
-        # Slider - Student slider
+        # Slider - Student Slider 
         student = st.slider('1. Which student?', 1, 115)
 
         # Selectbox - log activity selection
-        log_activity = ['mouse_click_left', 'mouse_wheel', 'idle_time',
-                        'mouse_wheel_click', 'mouse_click_right',
-                        'mouse_movement', 'keystroke']
-        option = st.selectbox('2. Which log activity you like to focus on?',
-                              log_activity)
+        log_activity = ['mouse_click_left','mouse_wheel', 'idle_time', 
+                        'mouse_wheel_click','mouse_click_right',
+                        'mouse_movement','keystroke']
+        option = st.selectbox(
+        '2. Which log activity you like to focus on?',
+        log_activity)
 
         # Multiselect - Activity selection
-        sorted_activity_unique = sorted(df['activity'].unique())
-        selected_activity = st.multiselect('3. Which activity do you want to include',
-                                           sorted_activity_unique,
-                                           sorted_activity_unique)
+        sorted_activity_unique = sorted( df['activity'].unique() )
+        selected_activity = st.multiselect('3. Which activity do you want to include', 
+                                                sorted_activity_unique,
+                                                sorted_activity_unique)
 
         # --- Class Average Plot ---
-        p = plot_log(df_avg, student, selected_activity, option,
-                     type='average').properties(title='Class Average')
+        p = plot_log(df_avg, student, selected_activity, option, type='average').properties(
+            title = 'Class Average')
 
         # --- Student Activity Distribution Plot ---
-        s = plot_log(df, student, selected_activity, option,
-                     type='student').properties(
-                         title='Student' + ' ' + str(student) + ' ' + option)
+        s = plot_log(df, student, selected_activity, option, type='student').properties(
+            title='Student' + ' ' + str(student) + ' ' + option)
 
         # Present graphs side by side
         x = alt.hconcat(
             p, s
         ).resolve_scale(y='shared')
 
-        st.write('**Plot Result**: You select ' + 'student ' + str(student) +
-                 ' and ' + option)
+        st.write('**Plot Result**: You select ' + 'student ' + str(student) + ' and ' + option)
         st.write(x)
 
     elif option == 'Class Grades':
@@ -307,9 +341,8 @@ def page_instructor():
             session = st.radio('Which session?', (2, 3, 4, 5, 6), 0)
         with col2:
             student = st.number_input('Which student you want to focus on \
-                                      (input student ID from 1 to 115)',
-                                      1, 115, 1)
-
+                                      (input student ID from 1 to 115)', 1, 115, 1)
+        
         # prepare datasets
         data_for_hist = mid_hist(session)
         data_summary = mid_summary(student, data_for_hist)
@@ -322,9 +355,9 @@ def page_instructor():
         all, area = mid_avg()
 
         students = all['Student Id'].unique()
-        selected_students = st.multiselect('Students you selected',
-                                           students,
-                                           ['Average', '1'])
+        selected_students = st.multiselect('Students you selected', 
+                                                students,
+                                                ['Average', '1'])
         all = all[all['Student Id'].isin(selected_students)]
 
         m = plot_mid(all, area)
@@ -336,105 +369,121 @@ def page_instructor():
 
 
 def page_about():
-    st.title("About Us")
-    col1, col2, col3, col4, col5 = st.columns(5)
+    """
+    present the entire sources and codes for the about section 
+    in the application, mainly including team-member introduction.
 
-    with col1:
-        st.image("static/member_photos/teemo.png", width=200)
+    Parameter: None
+
+    Return: None
+    """
+    st.title("About Us")
+    col1, col2, col3, col4, col5= st.columns(5)
+
+    with col1:  
+        st.image("static/member_photos/teemo.png",width=200)
         st.markdown(
             """
-            ## Meredith
-            <b><font color="#005CB9" face="Helvetica" size="3.5">Visualization Team</font> </b>
+            ## Meredith  
+            <b><font color="#005CB9" face="Helvetica" size="3.5">Visualization Team</font> </b>   
             <br/><br/>
-            **\"Go Huskies!\"**
+            **\"Go Huskies!\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">mereluo@uw.edu</font> </b>
-            """, unsafe_allow_html=True
+            """
+            ,unsafe_allow_html= True
             )
-
-    with col2:
-        st.image("static/member_photos/teemo.png", width=200)
+        
+    with col2:       
+        st.image("static/member_photos/teemo.png",width=200)
         st.markdown(
             """
             ## Seyoung
-            <b><font color="#005CB9" face="Helvetica" size="3.5">Web Development Team</font> </b>
+            <b><font color="#005CB9" face="Helvetica" size="3.5">Web Development Team</font> </b>    
             <br/><br/>
-            **\"I love EPM!\"**
+            **\"I love EPM!\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">synam@uw.edu</font> </b>
             """
-            ,unsafe_allow_html=True
+            ,unsafe_allow_html= True
             )
 
     with col3:
-        st.image("static/member_photos/teemo.png", width=200)
+        st.image("static/member_photos/teemo.png",width=200)
         st.markdown(
             """
             ## Yongwon
             <b><font color="#005CB9" face="Helvetica" size="3.5">Machine Learning Team</font> </b>
-            <br/><br/>
-            **\"I love EPM!\"**
+            <br/><br/>  
+            **\"I love EPM!\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">kimyw@uw.edu</font> </b>
             """,
-            unsafe_allow_html=True
+            unsafe_allow_html = True
             )
 
-    with col4:
-        st.image("static/member_photos/teemo.png", width=200)
+    with col4: 
+        st.image("static/member_photos/teemo.png",width=200)
         st.markdown(
             """
             ## Wenjin
             <b><font color="#005CB9" face="Helvetica" size="3.5">Visualization Team</font> </b>
-            <br/><br/>
-            **\"Yinsheng is my boss!\"**
+            <br/><br/>  
+            **\"Yinsheng is my boss!\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">wjzhang@uw.edu</font> </b>
-            """,
-            unsafe_allow_html=True
+            """
+            ,unsafe_allow_html= True
             )
 
-    with col5:
-        st.image("static/member_photos/ys.PNG", width=200)
+    with col5:    
+        st.image("static/member_photos/ys.PNG",width=200)
         st.markdown(
             """
             ## Yinsheng
             <b><font color="#005CB9" face="Helvetica" size="3.5">Machine Learning Team</font> </b>
-            <br/><br/>
-            **\"If I die, I die.\"**
+            <br/><br/>  
+            **\"If I die, I die.\"**  
             <br/>
             :email:<b><font color="#FF5733" face="Verdana" size="2.5">kysheng@uw.edu</font> </b>
-            """,
-            unsafe_allow_html=True
-            )
-
-
-def page_behavior_analysis(id):
-    st.header("Behavior Analysis")
-
-
-def page_grades(id):
-    st.header("Grades")
+            """
+            ,unsafe_allow_html= True
+            ) 
 
 
 def page_review_alert(username):
+    """
+    give a student information about which sesssions he/she is recommended
+    to review to boost their final exam grades.
+
+    Parameter: None
+
+    Return: None
+    """
     st.header("Review Alert")
     feat_num = st.radio(
      "Choose the number of features",
      (3, 4, 5))
 
     df = review_alert(username, feat_num)
-    for r in range(len(df)):
+    for r in range(len(df)) :
         for c in range(5):
             if df.iloc[r, c] != 0:
                 df.iloc[r, c] = 'Study!!!'
     st.table(df)
 
-
 def page_grouping_assistant():
+    """
+    give a instructor a grouping guideline for team activity
+    based on students' behaviors.
+
+    Parameter: None
+
+    Return: None
+    """
     st.header("Grouping Assistant")
 
-    # Read data
+    #Read data
     objects = []
     with (open("epm/data_prep/pickles/whole_data.pkl", "rb")) as openfile:
         while True:
@@ -444,31 +493,25 @@ def page_grouping_assistant():
                 break
     whole_data = objects[0]
 
+    whatever= '<p style="font-family:Arial; color:Blue; font-size: 20px;">User input features</p>'
 
-    whatever = '<p style="font-family:Arial; color:Blue; font-size: 20px;">User input features</p>'
-
-    st.header("User input features")
-
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        features_include = st.selectbox("How many siginificant learning features to be included?",range(2,5))
-    with col2:
-        cluster_timing = st.selectbox("Which session is the class at?",range(2,7))
-    with col3:
-        number_of_cluster = int(st.text_input("How many clusters to make?", 3))
+    st.sidebar.header("User input features")
+    features_include =  st.sidebar.selectbox("How many siginificant learning features to be included?",range(2,5))
+    cluster_timing =  st.sidebar.selectbox("Which session is the class at?",range(2,7))
+    number_of_cluster = int(st.sidebar.text_input("How many clusters to make?", 3))
 
     with st.spinner('Compiling model...'):
         gif_runner = st.image('static/loading.gif')
-        subdata = mlm.subset_important_features(whole_data, features_include, "common")
-        cluster_result = mlm.kmean_clustering(subdata, cluster_timing, number_of_cluster)
+        subdata = mlm.subset_important_features(whole_data,features_include,"common")
+        cluster_result = mlm.kmean_clustering(subdata,cluster_timing,number_of_cluster)
 
         input_dropdown = alt.binding_select(options=np.array(range(number_of_cluster)))
-        selection = alt.selection_single(fields=['group'],
-                                         bind=input_dropdown,
-                                         name='Cluster of')
+        selection = alt.selection_single(fields=['group'], 
+                                        bind=input_dropdown,
+                                        name='Cluster of')
         color = alt.condition(selection,
-                              alt.Color('group:N', legend=None),
-                              alt.value('lightgray'))
+                            alt.Color('group:N', legend=None),
+                            alt.value('lightgray'))
         x = f"{cluster_result.columns.values[0]}:Q"
         y = f"{cluster_result.columns.values[-2]}:Q"
         c = alt.Chart(cluster_result).mark_point().encode(
@@ -485,8 +528,9 @@ def page_grouping_assistant():
         gif_runner.empty()
 
         st.altair_chart(c, use_container_width=False)
-        st.write(cluster_result[['ID', 'group']].transpose())
+        st.write(cluster_result[['ID','group']].transpose())
 
+    
 
 if __name__ == "__main__":
     main()
