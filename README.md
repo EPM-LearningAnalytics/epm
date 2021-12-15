@@ -4,7 +4,7 @@ Team Members: Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhan
 
 ## Logo
 
-<img src="https://github.com/EPM-LearningAnalytics/static/logo.svg?raw=true" height="150" width="100">
+<img src="https://github.com/EPM-LearningAnalytics/epm/blob/main/static/logo.svg?raw=true" height="150" width="100">
 
 ## Background
 
