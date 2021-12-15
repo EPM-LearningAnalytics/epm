@@ -55,6 +55,8 @@ def plot_mid(avg_data, area_data):
     a plot with x-axis lists different sessions, y-axis is the score. Different colors represent different
     statistics of the scores or different students.
     """
+    if area_data.shape != (10, 3):
+        raise ValueError("The second dataset has wrong dimension!")
     area = alt.Chart(area_data, width=700, height=500
     ).mark_area(opacity=0.3).encode(
         alt.X('Session'),
@@ -114,6 +116,12 @@ def plot_mid_hist(session, student, data_for_hist, data_summary):
     statistics of the grades. The grades for selected students can also be displayed for a direct comparison.
 
     """
+    if data_for_hist.shape[1] != 2:
+        raise ValueError("the first data has wrong number of columns.")
+    else: pass
+    if data_summary.shape[1] != 8:
+        raise ValueError("the second data has wrong number of columns.")
+    else: pass
     mean=data_summary.loc[ 0 ,"Session"]
     Q1=data_summary.loc[ 1 ,"Session"]
     median=data_summary.loc[ 2 ,"Session"]
@@ -221,4 +229,3 @@ def plot_mid_hist(session, student, data_for_hist, data_summary):
 #         ).interactive().properties(
 #         title = "Comparison of class and student's final grades on a standard scale")
 #     return(m)
-
