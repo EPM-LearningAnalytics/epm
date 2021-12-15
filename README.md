@@ -1,3 +1,4 @@
+[![HitCount](http://hits.dwyl.com/EPM-LearningAnalytics/epm.svg?style=flat-square)](http://hits.dwyl.com/EPM-LearningAnalytics/epm)
 # Educational Process Mining
 
 Team Members: Meredith Luo, Seyoung Nam, Yinsheng Kou, Youngwon Kim, Wenjin Zhang
