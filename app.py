@@ -412,12 +412,16 @@ def page_grades(id):
 
 def page_review_alert(username):
     st.header("Review Alert")
-    res = review_alert(username)[2:]
+    feat_num = st.radio(
+     "Choose the number of features",
+     (3, 4, 5))
 
-    for i, col in enumerate(st.columns(5)):
-        label = "Session " + str(i+2)
-        value = "Review!" if res[i] == 1 else "Safe"
-        col.metric(label, value)
+    df = review_alert(username, feat_num)
+    for r in range(len(df)) :
+        for c in range(5):
+            if df.iloc[r, c] != 0:
+                df.iloc[r, c] = 'Study!!!'
+    st.table(df)
 
 def page_grouping_assistant():
     st.header("Grouping Assistant")
