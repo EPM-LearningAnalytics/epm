@@ -210,7 +210,7 @@ def kmean_clustering(data_list, num_of_sessions, num_of_clusters):
                 kmeans = KMeans(n_clusters=num_of_clusters, init='k-means++',
                                 max_iter=300, n_init=10)
                 kmeans.fit(new_data_list[i-1].loc[:, new_data_list[i-1].columns != 'ID'])
-                y_pred = kmeans.fit_predict(new_data_list[i-1].iloc[:, :])
+                y_pred = kmeans.fit_predict(new_data_list[i-1].loc[:, new_data_list[i-1].columns != 'ID'])
                 new_data_list[i-1] = new_data_list[i-1].assign(group=y_pred)
             # k-mean clustering for the session 3-6
             if 2 <= i <= 5:
