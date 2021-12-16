@@ -72,7 +72,7 @@ Due to the dataset that we are building models on being **very specific** to the
 
 Jenny intends to understand her learning progress better and get some advice on the final exam review. She signs in our application by specifying she is a student and providing her student ID. These two inputs from Jenny (i.e., student identity and student ID) satisfied the required inputs for both visualizations and the machine learning engine. On the webpage, various visual aids based on Jenny’s log activities will be generated. The machine learning engine will utilize Jenny’s log activities and predict which performance group Jenny belongs to and whether Jenny needs to review more before the final exam.
 
-![Untitled](design.png)
+<img src="docs/design.png" height="350" width="550">
 
 
 
