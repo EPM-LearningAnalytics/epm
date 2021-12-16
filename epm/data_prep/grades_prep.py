@@ -18,6 +18,11 @@ def read_grades(dir1='../../data/intermediate_grades.xlsx',
     dir1: intermidiate grades path
     dir2: final grades path
     """
+    # Error meassages
+    if not isinstance(dir1, str) is True:
+        raise ValueError("'grades' should be should be a string (directory).")
+    if not isinstance(dir2, str) is True:
+        raise ValueError("'grades' should be should be a string (directory).")
     # Get intermediate grades
     mid_grades = pd.read_excel(dir1)
     # Get final grades
@@ -82,7 +87,7 @@ def rebase_mid(mid_grades):
     """
     # Error meassage
     if not isinstance(mid_grades, pd.DataFrame) is True:
-        raise ValueError("'final_1st' should be should be a panda dataframe.")
+        raise ValueError("'mid_grades' should be should be a panda dataframe.")
     # Rebase score on 100
     mid_100 = mid_grades
     for i, col_name in enumerate(mid_grades.columns):

@@ -24,6 +24,10 @@ def read_file(file_dir='../../data/Processes'):
     ----------
     A list containing pandas dataframes of all sessions' raw data
     """
+    # Error meassage
+    if not isinstance(file_dir, str) is True:
+        raise ValueError("'file_dir' should be should be a string (directory).")
+    # Read files
     sessions = []
     for root, dirs, files in os.walk(file_dir, topdown=False):
         if files:
@@ -35,12 +39,12 @@ def read_file(file_dir='../../data/Processes'):
                     session.append(log)
             if session:
                 session_pd = pd.concat(session)
-                session_pd.columns = ["session", "student_id", "exercise", 
-                            "activity",'start_time','end_time',
-                            'idle_time','mouse_wheel','mouse_wheel_click','mouse_click_left',
-                            'mouse_click_right','mouse_movement','keystroke']
+                session_pd.columns = ["session", "student_id", "exercise",
+                                      "activity", 'start_time', 'end_time',
+                                      'idle_time', 'mouse_wheel', 'mouse_wheel_click',
+                                      'mouse_click_left', 'mouse_click_right', 'mouse_movement',
+                                      'keystroke']
                 sessions.append(session_pd)
-    
     # Insert the ordered session data to the data_list array.
     data_list = [0]*7
     session_num = 0
@@ -48,15 +52,12 @@ def read_file(file_dir='../../data/Processes'):
         session_num = int(sessions[0]['session'].unique())
         data_list[session_num] = sessions.pop(0)
         session_num +=1
-
     # confirm
     for i, session in enumerate(data_list):
         if i == 0: continue
         session_num = session['session'].unique()[0]
-        print(f"{i}th element in the sessions list represents Session{session_num}")
-    
+        print(f"{i}th element in the sessions list represents Session{session_num}")  
     return data_list
-
 
 
 def feature_manipulation(data_list):
@@ -72,7 +73,7 @@ def feature_manipulation(data_list):
     A list containing pandas dataframes of all sessions' cleaned and formatted data
     """
     # Error meassage
-    if not isinstance(data_list, list) is True:
+    if not isinstance(data_list[1], pd.DataFrame) is True:
         raise ValueError("'data_list' should be a list including panda dataframes.")
     # Drop irrelevant columns and give simpler column names
     for i, session in enumerate(data_list):
