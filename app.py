@@ -1,13 +1,12 @@
 """
 This module contains functions and contents to run streamlit application.
 """
-
-import streamlit as st
-import streamlit.components.v1 as components
+import pickle
 import pandas as pd
 import numpy as np
 import altair as alt
-import pickle
+import streamlit as st
+import streamlit.components.v1 as components
 
 from epm.user_db.user_db import create_usertable, add_userdata, get_userdata, \
                                 view_all_users, delete_usertable
@@ -464,8 +463,8 @@ def page_review_alert(username):
     """
     st.header("Review Alert")
     feat_num = st.radio(
-     "Choose the number of features",
-     (3, 4, 5))
+        "Choose the number of features",
+        (3, 4, 5))
 
     df = review_alert(username, feat_num)
     for r in range(len(df)):
@@ -522,10 +521,10 @@ def page_grouping_assistant():
         x = f"{cluster_result.columns.values[0]}:Q"
         y = f"{cluster_result.columns.values[-2]}:Q"
         c = alt.Chart(cluster_result).mark_point().encode(
-                x=x,
-                y=y,
-                color=color,
-                tooltip='ID:Q'
+            x=x,
+            y=y,
+            color=color,
+            tooltip='ID:Q'
             ).add_selection(
                 selection
             ).properties(
