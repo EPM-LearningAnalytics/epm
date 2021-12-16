@@ -17,5 +17,6 @@ The folders here are submodules that each have their own `init.py` file and can 
 
 ### 3. modeling
 
+* `Data preprocessing and create pickles for trained models.ipynb` includes data preprocessing steps and codes to create pickle files for features & outcome and trained models.
 * `ml_modeling.py` subsets certain number of important features and detects student behavior and groups students
 * `review_alert.py` creates a dataframe that represents which sessions a student is recommended to review first before the final exam.
