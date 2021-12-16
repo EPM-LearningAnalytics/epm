@@ -28,17 +28,21 @@ Our project intends to build a **web tool** to make log data informative for stu
 │   ├── data_prep
 │   ├── graph
 │   ├── modeling
+│   ├── user_db
 │   └── tests
 ├── data
 │   ├── Processes
 │   ├── all_log.csv
 │   ├── final_grades.xlsx
+│   ├── logs.txt
 │   └── intermediate_grades.xlsx
 ├── docs
 │   └── data_info  
 ├── Dockerfile
 ├── LICENSE
 ├── README.md
+├── .streamlit
+├── static
 ├── app.py
 └── requirements.txt
  ```
