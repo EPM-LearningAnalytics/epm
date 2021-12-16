@@ -62,7 +62,7 @@ This application is running upon the Docker container. Please download and insta
 
 ### Project Design
 
-<img src="docs/projectdesign.svg" height="350" width="550">
+<img src="docs/design.png" height="350" width="550">
 
 ## Usage
 
